@@ -374,8 +374,6 @@ export const FingerprintView = () => {
         </Box>
       </Grow>
 
-      {/* Custom Table */}
-      {/* <Grow in timeout={1000}> */}
         <CustomTable
           columns={columns}
           rows={filteredMachines}
