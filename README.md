@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Admin Fingerprint System
 
-## Getting Started
+Sistem manajemen fingerprint untuk admin yang dibangun dengan Next.js dan Material UI.
 
-First, run the development server:
+## Fitur
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 🔐 Halaman Login
+- Desain modern dengan Material UI
+- Form login dengan validasi
+- Animasi loading saat proses login
+- Demo credentials: `admin` / `admin123`
+
+### 📊 Dashboard Admin
+- **Statistik Overview**: Menampilkan jumlah user yang terdaftar, pending, dan belum terdaftar
+- **User Management**: Tabel lengkap dengan data user
+- **Search & Filter**: Pencarian dan filter user berdasarkan nama, email, atau departemen
+- **Add User**: Dialog untuk menambah user baru
+- **Responsive Design**: Mendukung mobile dan desktop
+- **Sidebar Navigation**: Menu navigasi yang mudah digunakan
+
+### 🛡️ Authentication & Security
+- Protected routes dengan komponen `ProtectedRoute`
+- Session management menggunakan localStorage
+- Auto-redirect berdasarkan status authentication
+
+## Teknologi yang Digunakan
+
+- **Next.js 15** - React framework
+- **Material UI v7** - UI component library
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Utility-first CSS framework
+
+## Struktur Proyek
+
+```
+finger-app/
+├── app/
+│   ├── components/
+│   │   └── ProtectedRoute.tsx    # Komponen untuk melindungi route
+│   ├── dashboard/
+│   │   └── page.tsx              # Halaman dashboard admin
+│   ├── login/
+│   │   └── page.tsx              # Halaman login
+│   ├── layout.tsx                # Root layout dengan Material UI theme
+│   └── page.tsx                  # Halaman utama (redirect)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Cara Menjalankan
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Jalankan development server**:
+   ```bash
+   npm run dev
+   ```
 
-## Learn More
+3. **Buka browser**:
+   ```
+   http://localhost:3000
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+## Cara Menggunakan
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Login**: Akses aplikasi akan langsung redirect ke halaman login
+2. **Masukkan credentials**: Gunakan `admin` / `admin123` untuk demo
+3. **Dashboard**: Setelah login berhasil, Anda akan diarahkan ke dashboard
+4. **Keluar**: Klik avatar di pojok kanan atas dan pilih "Logout"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Fitur Dashboard
 
-## Deploy on Vercel
+### Statistik Cards
+- **Registered**: Jumlah user dengan fingerprint terdaftar
+- **Pending**: Jumlah user dengan status pending
+- **Not Registered**: Jumlah user yang belum terdaftar
+- **Total Users**: Total semua user
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### User Management Table
+- **Nama**: Nama lengkap user dengan avatar
+- **Email**: Alamat email user
+- **Department**: Departemen user
+- **Fingerprint Status**: Status dengan chip berwarna
+- **Last Access**: Waktu akses terakhir
+- **Actions**: Menu untuk aksi tambahan
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Search & Filter
+- **Search**: Pencarian berdasarkan nama, email, atau departemen
+- **Filter**: Filter data (dapat dikembangkan lebih lanjut)
+- **Add User**: Tombol untuk menambah user baru
+
+## Customization
+
+### Theme
+Theme Material UI dapat disesuaikan di `app/layout.tsx`:
+
+```typescript
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#667eea',  // Warna primary
+    },
+    secondary: {
+      main: '#764ba2',  // Warna secondary
+    },
+  },
+});
+```
+
+### Data Sample
+Data user sample dapat diubah di `app/dashboard/page.tsx` dalam fungsi `useEffect`.
+
+## Development
+
+### Menambah Fitur Baru
+1. Buat komponen baru di folder `app/components/`
+2. Tambahkan route baru di folder `app/`
+3. Update navigation di sidebar dashboard jika diperlukan
+
+### Authentication
+Saat ini menggunakan localStorage untuk demo. Untuk production, ganti dengan:
+- JWT tokens
+- Session management
+- API authentication
+- Database integration
+
+## License
+
+MIT License - bebas digunakan untuk keperluan komersial maupun non-komersial.
