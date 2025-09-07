@@ -17,12 +17,16 @@ export const FingerprintTable = () => {
     const [pageSize, setPageSize] = useState(5);
     const [editingMachine, setEditingMachine] = useState<FingerprintMachine | null>(null);
     const [formData, setFormData] = useState<Partial<FingerprintMachine>>({
-      name: '',
-      location: '',
-      ipAddress: '',
-      status: 'online',
-      model: '',
-      serialNumber: '',
+      device_name: '',
+      device_type_name: '',
+      cloud_id: '',
+      sn: '',
+      user_id: 0,
+      webhook_url: '',
+      server_id: 0,
+      device_type_id: 0,
+      img: '',
+      url_: '',
     });
     const [snackbar, setSnackbar] = useState({ 
       open: false, 
@@ -36,40 +40,42 @@ export const FingerprintTable = () => {
     });
 
     const filteredMachines = machines.filter(machine =>
-      machine.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      machine.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      machine.ipAddress.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      machine.model.toLowerCase().includes(searchTerm.toLowerCase())
+      machine.device_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      machine.device_type_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      machine.cloud_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      machine.sn.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     function handleOpenDialog(machine?: FingerprintMachine) {
       if (machine) {
         setEditingMachine(machine);
         setFormData({
-          name: machine.name,
-          location: machine.location,
-          ipAddress: machine.ipAddress,
-          status: machine.status,
-          model: machine.model,
-          serialNumber: machine.serialNumber,
-          id: machine.id,
-          lastSync: machine.lastSync,
-          totalUsers: machine.totalUsers,
-          registeredUsers: machine.registeredUsers,
+          device_name: machine.device_name,
+          device_type_name: machine.device_type_name,
+          cloud_id: machine.cloud_id,
+          sn: machine.sn,
+          user_id: machine.user_id,
+          webhook_url: machine.webhook_url,
+          server_id: machine.server_id,
+          device_type_id: machine.device_type_id,
+          img: machine.img,
+          url_: machine.url_,
+          created_at: machine.created_at,
+          last_activity: machine.last_activity,
         });
       } else {
         setEditingMachine(null);
         setFormData({
-          name: '',
-          location: '',
-          ipAddress: '',
-          status: 'online',
-          model: '',
-          serialNumber: '',
-          id: '',
-          lastSync: '',
-          totalUsers: 0,
-          registeredUsers: 0,
+          device_name: '',
+          device_type_name: '',
+          cloud_id: '',
+          sn: '',
+          user_id: 0,
+          webhook_url: '',
+          server_id: 0,
+          device_type_id: 0,
+          img: '',
+          url_: '',
         });
       }
       setOpenAdd(true);
@@ -79,34 +85,33 @@ export const FingerprintTable = () => {
       setOpenAdd(false);
       setEditingMachine(null);
       setFormData({
-        name: '',
-        location: '',
-        ipAddress: '',
-        status: 'online',
-        model: '',
-        serialNumber: '',
-        id: '',
-        lastSync: '',
-        totalUsers: 0,
-        registeredUsers: 0,
+        device_name: '',
+        device_type_name: '',
+        cloud_id: '',
+        sn: '',
+        user_id: 0,
+        webhook_url: '',
+        server_id: 0,
+        device_type_id: 0,
+        img: '',
+        url_: '',
       });
     }
 
     function handleSave() {
       if (editingMachine) {
         setMachines(prev => prev.map(machine =>
-          machine.id === editingMachine.id
-            ? { ...machine, ...formData, lastSync: new Date().toLocaleString() }
+          machine.cloud_id === editingMachine.cloud_id
+            ? { ...machine, ...formData, last_activity: new Date().toLocaleString() }
             : machine
         ));
         setSnackbar({ open: true, message: 'Mesin berhasil diperbarui!', severity: 'success' });
       } else {
         const newMachine: FingerprintMachine = {
           ...formData as FingerprintMachine,
-          id: (machines.length + 1).toString(),
-          lastSync: new Date().toLocaleString(),
-          totalUsers: 0,
-          registeredUsers: 0,
+          cloud_id: `C${Date.now().toString(16).toUpperCase()}`,
+          created_at: new Date().toLocaleString(),
+          last_activity: new Date().toLocaleString(),
         };
         setMachines(prev => [...prev, newMachine]);
         setSnackbar({ open: true, message: 'Mesin berhasil ditambahkan!', severity: 'success' });
@@ -114,8 +119,8 @@ export const FingerprintTable = () => {
       handleCloseDialog();
     }
 
-    function handleDelete(id: string) {
-      setMachines(prev => prev.filter(machine => machine.id !== id));
+    function handleDelete(cloudId: string) {
+      setMachines(prev => prev.filter(machine => machine.cloud_id !== cloudId));
       setSnackbar({ open: true, message: 'Mesin berhasil dihapus!', severity: 'success' });
     }
 
@@ -198,7 +203,7 @@ export const FingerprintTable = () => {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onRowClick={(row) => console.log('Row clicked:', row)}
-          getRowId={(row) => row.id}
+          getRowId={(row) => row.user_id}
           rowHeight={60}
           headerHeight={56}
         />

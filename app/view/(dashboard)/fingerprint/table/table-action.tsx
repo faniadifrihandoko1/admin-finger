@@ -20,7 +20,7 @@ export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
       </IconButton>
       <IconButton
         size="small"
-        onClick={() => onDelete?.(row.id)}
+        onClick={() => onDelete?.(row.cloud_id)}
         sx={{ color: 'error.main' }}
       >
         <Delete />

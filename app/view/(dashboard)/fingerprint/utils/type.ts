@@ -1,13 +1,15 @@
 export interface FingerprintMachine {
-    id: string;
-    name: string;
-    location: string;
-    ipAddress: string;
-    status: 'online' | 'offline' | 'maintenance';
-    lastSync: string;
-    totalUsers: number;
-    registeredUsers: number;
-    model: string;
-    serialNumber: string;
+    cloud_id: string;
+    created_at: string;
+    device_name: string;
+    user_id: number;
+    webhook_url: string;
+    server_id: number;
+    device_type_id: number;
+    last_activity: string;
+    device_type_name: string;
+    img: string;
+    url_: string;
+    sn: string;
 }
 

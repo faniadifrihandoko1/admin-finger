@@ -1,5 +1,5 @@
 import { GridColumnDef } from "@/app/components/comon/table/CustomTable";
-import { Cancel, CheckCircle, Computer, Edit, LocationOn, Warning } from "@mui/icons-material";
+import { Cancel, CheckCircle, Computer, Edit, LocationOn, Warning, Cloud, Link, Memory } from "@mui/icons-material";
 import { Avatar, Box, Chip, IconButton, LinearProgress, Typography } from "@mui/material";
 import { TableAction } from "./table-action";
 import { useMemo } from "react";
@@ -10,29 +10,45 @@ interface UseTableColumnsProps {
   onDelete?: (id: string) => void;
 }
 
-const getStatusIcon = (status: string) => {
-  switch (status) {
-    case 'online':
-      return <CheckCircle />;
-    case 'offline':
-      return <Cancel />;
-    case 'maintenance':
-      return <Warning />;
-    default:
-      return null;
+const getStatusIcon = (lastActivity: string) => {
+  const lastActivityDate = new Date(lastActivity);
+  const now = new Date();
+  const diffInHours = (now.getTime() - lastActivityDate.getTime()) / (1000 * 60 * 60);
+  
+  if (diffInHours < 1) {
+    return <CheckCircle />;
+  } else if (diffInHours < 24) {
+    return <Warning />;
+  } else {
+    return <Cancel />;
   }
 };
 
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'online':
-      return 'success';
-    case 'offline':
-      return 'error';
-    case 'maintenance':
-      return 'warning';
-    default:
-      return 'default';
+const getStatusColor = (lastActivity: string) => {
+  const lastActivityDate = new Date(lastActivity);
+  const now = new Date();
+  const diffInHours = (now.getTime() - lastActivityDate.getTime()) / (1000 * 60 * 60);
+  
+  if (diffInHours < 1) {
+    return 'success';
+  } else if (diffInHours < 24) {
+    return 'warning';
+  } else {
+    return 'error';
+  }
+};
+
+const getStatusLabel = (lastActivity: string) => {
+  const lastActivityDate = new Date(lastActivity);
+  const now = new Date();
+  const diffInHours = (now.getTime() - lastActivityDate.getTime()) / (1000 * 60 * 60);
+  
+  if (diffInHours < 1) {
+    return 'ACTIVE';
+  } else if (diffInHours < 24) {
+    return 'IDLE';
+  } else {
+    return 'OFFLINE';
   }
 };
 
@@ -40,8 +56,8 @@ export function useTableColumns({ onEdit, onDelete }: UseTableColumnsProps = {})
   return useMemo(() => {
     const columns: GridColumnDef[] = [
       {
-        field: 'name',
-        headerName: 'Mesin',
+        field: 'device_name',
+        headerName: 'Device',
         flex: 2,
         minWidth: 200,
         renderCell: ({ row }: { row: FingerprintMachine }) => (
@@ -59,37 +75,37 @@ export function useTableColumns({ onEdit, onDelete }: UseTableColumnsProps = {})
             </Avatar>
             <Box>
               <Typography variant="body2" fontWeight={500}>
-                {row.name}
+                {row.device_name}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {row.model}
+                {row.device_type_name}
               </Typography>
             </Box>
           </Box>
         ),
       },
       {
-        field: 'location',
-        headerName: 'Lokasi',
+        field: 'cloud_id',
+        headerName: 'Cloud ID',
         flex: 1.5,
         minWidth: 150,
-        renderCell: ({ row }) => (
+        renderCell: ({ row }: { row: FingerprintMachine }) => (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <LocationOn sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
-            <Typography variant="body2">
-              {row.location}
+            <Cloud sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
+            <Typography variant="body2" fontFamily="monospace">
+              {row.cloud_id}
             </Typography>
           </Box>
         ),
       },
       {
-        field: 'ipAddress',
-        headerName: 'IP Address',
-        flex: 1,
-        minWidth: 120,
+        field: 'sn',
+        headerName: 'Serial Number',
+        flex: 1.5,
+        minWidth: 150,
         renderCell: ({ row }: { row: FingerprintMachine }) => (
           <Typography variant="body2" fontFamily="monospace">
-            {row.ipAddress}
+            {row.sn}
           </Typography>
         ),
       },
@@ -100,43 +116,28 @@ export function useTableColumns({ onEdit, onDelete }: UseTableColumnsProps = {})
         minWidth: 120,
         renderCell: ({ row }: { row: FingerprintMachine }) => (
           <Chip
-            icon={getStatusIcon(row.status) || undefined}
-            label={row.status.toUpperCase()}
-            color={getStatusColor(row.status) as any}
+            icon={getStatusIcon(row.last_activity) || undefined}
+            label={getStatusLabel(row.last_activity)}
+            color={getStatusColor(row.last_activity) as any}
             size="small"
             sx={{ borderRadius: 2 }}
           />
         ),
       },
       {
-        field: 'users',
-        headerName: 'Users',
-        flex: 1.5,
-        minWidth: 150,
+        field: 'user_id',
+        headerName: 'User ID',
+        flex: 1,
+        minWidth: 100,
         renderCell: ({ row }: { row: FingerprintMachine }) => (
-          <Box>
-            <Typography variant="body2" fontWeight={500}>
-              {row.registeredUsers}/{row.totalUsers}
-            </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={(row.registeredUsers / row.totalUsers) * 100}
-              sx={{
-                height: 4,
-                borderRadius: 2,
-                backgroundColor: 'rgba(0,0,0,0.1)',
-                '& .MuiLinearProgress-bar': {
-                  backgroundColor: 'success.main',
-                  borderRadius: 2,
-                },
-              }}
-            />
-          </Box>
+          <Typography variant="body2" fontWeight={500}>
+            {row.user_id}
+          </Typography>
         ),
       },
       {
-        field: 'lastSync',
-        headerName: 'Last Sync',
+        field: 'last_activity',
+        headerName: 'Last Activity',
         flex: 1.5,
         minWidth: 150,
         type: 'date',

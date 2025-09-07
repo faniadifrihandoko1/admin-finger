@@ -36,50 +36,29 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
           <TextField
             autoFocus
             margin="dense"
-            label="Nama Mesin"
+            label="Device Name"
             fullWidth
             variant="outlined"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            value={formData.device_name}
+            onChange={(e) => setFormData({ ...formData, device_name: e.target.value })}
             sx={{ mb: 2, borderRadius: 2 }}
           />
           <TextField
             margin="dense"
-            label="Lokasi"
+            label="Device Type Name"
             fullWidth
             variant="outlined"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            value={formData.device_type_name}
+            onChange={(e) => setFormData({ ...formData, device_type_name: e.target.value })}
             sx={{ mb: 2, borderRadius: 2 }}
           />
           <TextField
             margin="dense"
-            label="IP Address"
+            label="Cloud ID"
             fullWidth
             variant="outlined"
-            value={formData.ipAddress}
-            onChange={(e) => setFormData({ ...formData, ipAddress: e.target.value })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          />
-          <FormControl fullWidth margin="dense" sx={{ mb: 2 }}>
-            <InputLabel>Status</InputLabel>
-            <Select
-              value={formData.status}
-              label="Status"
-              onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
-            >
-              <MenuItem value="online">Online</MenuItem>
-              <MenuItem value="offline">Offline</MenuItem>
-              <MenuItem value="maintenance">Maintenance</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            margin="dense"
-            label="Model"
-            fullWidth
-            variant="outlined"
-            value={formData.model}
-            onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+            value={formData.cloud_id}
+            onChange={(e) => setFormData({ ...formData, cloud_id: e.target.value })}
             sx={{ mb: 2, borderRadius: 2 }}
           />
           <TextField
@@ -87,8 +66,47 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
             label="Serial Number"
             fullWidth
             variant="outlined"
-            value={formData.serialNumber}
-            onChange={(e) => setFormData({ ...formData, serialNumber: e.target.value })}
+            value={formData.sn}
+            onChange={(e) => setFormData({ ...formData, sn: e.target.value })}
+            sx={{ mb: 2, borderRadius: 2 }}
+          />
+          <TextField
+            margin="dense"
+            label="User ID"
+            fullWidth
+            variant="outlined"
+            type="number"
+            value={formData.user_id}
+            onChange={(e) => setFormData({ ...formData, user_id: parseInt(e.target.value) || 0 })}
+            sx={{ mb: 2, borderRadius: 2 }}
+          />
+          <TextField
+            margin="dense"
+            label="Webhook URL"
+            fullWidth
+            variant="outlined"
+            value={formData.webhook_url}
+            onChange={(e) => setFormData({ ...formData, webhook_url: e.target.value })}
+            sx={{ mb: 2, borderRadius: 2 }}
+          />
+          <TextField
+            margin="dense"
+            label="Server ID"
+            fullWidth
+            variant="outlined"
+            type="number"
+            value={formData.server_id}
+            onChange={(e) => setFormData({ ...formData, server_id: parseInt(e.target.value) || 0 })}
+            sx={{ mb: 2, borderRadius: 2 }}
+          />
+          <TextField
+            margin="dense"
+            label="Device Type ID"
+            fullWidth
+            variant="outlined"
+            type="number"
+            value={formData.device_type_id}
+            onChange={(e) => setFormData({ ...formData, device_type_id: parseInt(e.target.value) || 0 })}
             sx={{ borderRadius: 2 }}
           />
         </DialogContent>
