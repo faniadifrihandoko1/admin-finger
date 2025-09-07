@@ -26,11 +26,9 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
           },
         }}
       >
-        <DialogTitle sx={{ pb: 1 }}>
-          <Typography variant="h6" fontWeight="bold">
-            {editingMachine ? 'Edit Mesin Fingerprint' : 'Tambah Mesin Fingerprint'}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
+        <DialogTitle sx={{ pb: 1, fontWeight: 'bold', fontSize: '1.25rem' }}>
+          {editingMachine ? 'Edit Mesin Fingerprint' : 'Tambah Mesin Fingerprint'}
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
             {editingMachine ? 'Perbarui informasi mesin' : 'Tambahkan mesin fingerprint baru ke sistem'}
           </Typography>
         </DialogTitle>

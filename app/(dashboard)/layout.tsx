@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/layout/Sidebar';
 import Header from '../components/layout/Header/Index';
-import ClientOnly from '../components/ClientOnly';
 import { Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
