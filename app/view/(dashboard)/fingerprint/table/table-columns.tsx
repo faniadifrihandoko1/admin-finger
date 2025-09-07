@@ -147,7 +147,8 @@ export function useTableColumns({ onEdit, onDelete }: UseTableColumnsProps = {})
         headerName: 'Actions',
         flex: 1,
         minWidth: 120,
-        align: 'right',
+        align: 'center',
+        
         renderCell: ({ row }: { row: FingerprintMachine }) => (
           <TableAction 
             row={row} 

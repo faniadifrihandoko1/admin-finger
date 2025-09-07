@@ -158,7 +158,7 @@ export const FingerprintTable = () => {
               <Button
                 variant="outlined"
                 startIcon={<FilterList />}
-                size="small"
+                size="medium"
                 sx={{ borderRadius: 2 }}
               >
                 Filter
@@ -166,13 +166,13 @@ export const FingerprintTable = () => {
               <Button
                 variant="outlined"
                 startIcon={<Refresh />}
-                size="small"
+                size="medium"
                 sx={{ borderRadius: 2 }}
                 onClick={handleRefresh}
               >
                 Refresh
               </Button>
-              <Button
+              {/* <Button
                 variant="contained"
                 startIcon={<Add />}
                 onClick={() => handleOpenDialog()}
@@ -188,7 +188,7 @@ export const FingerprintTable = () => {
                 }}
               >
                 Tambah Mesin
-              </Button>
+              </Button> */}
             </Stack>
           </Box>
         </Grow>

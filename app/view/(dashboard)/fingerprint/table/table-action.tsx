@@ -10,23 +10,13 @@ interface TableActionProps {
 
 export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
   return (
-    <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}>
+    <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center', width: '100%', }}>
       <IconButton
         size="small"
         onClick={() => onEdit?.(row)}
         sx={{ color: 'primary.main' }}
       >
         <Edit />
-      </IconButton>
-      <IconButton
-        size="small"
-        onClick={() => onDelete?.(row.cloud_id)}
-        sx={{ color: 'error.main' }}
-      >
-        <Delete />
-      </IconButton>
-      <IconButton size="small">
-        <MoreVert />
       </IconButton>
     </Box>
   );
