@@ -47,7 +47,7 @@ interface RecentActivity {
   status: 'success' | 'warning' | 'error';
 }
 
-export default function DashboardMain() {
+export const DashboardView = () => {
   const [stats, setStats] = useState<DashboardStats>({
     totalUsers: 156,
     registeredUsers: 142,

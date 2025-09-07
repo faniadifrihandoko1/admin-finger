@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import DashboardMain from '../../components/DashboardMain';
+import { DashboardView } from '@/app/view/(dashboard)/dashboard';
 
 export default function DashboardPage() {
-  return <DashboardMain />;
+  return <DashboardView />;
 }

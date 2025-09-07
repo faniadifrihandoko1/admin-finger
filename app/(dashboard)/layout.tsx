@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
+import Sidebar from '../components/layout/Sidebar';
+import Header from '../components/layout/Header/Index';
 import ClientOnly from '../components/ClientOnly';
 import { Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,7 @@ export default function DashboardLayout({
   };
 
   return (
-    <ClientOnly fallback={<div>Loading...</div>}>
+    // <ClientOnly fallback={<div>Loading...</div>}>
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         {/* Sidebar */}
         <Sidebar
@@ -63,6 +63,6 @@ export default function DashboardLayout({
           </Box>
         </Box>
       </Box>
-    </ClientOnly>
+    // </ClientOnly>
   );
 }
