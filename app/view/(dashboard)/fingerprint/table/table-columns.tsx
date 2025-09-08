@@ -67,8 +67,8 @@ export function useTableColumns({ onEdit, onDelete }: UseTableColumnsProps = {})
                 width: 40,
                 height: 40,
                 mr: 2,
-                background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)',
-                boxShadow: '0 2px 8px rgba(46, 125, 50, 0.3)',
+                background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
+                boxShadow: '0 2px 8px rgba(1, 112, 185, 0.3)',
               }}
             >
               <Computer />
@@ -109,21 +109,21 @@ export function useTableColumns({ onEdit, onDelete }: UseTableColumnsProps = {})
           </Typography>
         ),
       },
-      {
-        field: 'status',
-        headerName: 'Status',
-        flex: 1,
-        minWidth: 120,
-        renderCell: ({ row }: { row: FingerprintMachine }) => (
-          <Chip
-            icon={getStatusIcon(row.last_activity) || undefined}
-            label={getStatusLabel(row.last_activity)}
-            color={getStatusColor(row.last_activity) as any}
-            size="small"
-            sx={{ borderRadius: 2 }}
-          />
-        ),
-      },
+      // {
+      //   field: 'status',
+      //   headerName: 'Status',
+      //   flex: 1,
+      //   minWidth: 120,
+      //   renderCell: ({ row }: { row: FingerprintMachine }) => (
+      //     <Chip
+      //       icon={getStatusIcon(row.last_activity) || undefined}
+      //       label={getStatusLabel(row.last_activity)}
+      //       color={getStatusColor(row.last_activity) as any}
+      //       size="small"
+      //       sx={{ borderRadius: 2 }}
+      //     />
+      //   ),
+      // },
       {
         field: 'user_id',
         headerName: 'User ID',

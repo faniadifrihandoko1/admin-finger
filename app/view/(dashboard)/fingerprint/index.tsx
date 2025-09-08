@@ -15,10 +15,10 @@ export const FingerprintView = () => {
         <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box>
             <Typography fontSize={22} fontWeight="bold" gutterBottom>
-              Mesin Fingerprint 🖥️
+              Mesin Absensi 🖥️
             </Typography>
             <Typography fontSize={18} color="text.secondary">
-              Kelola dan monitor semua mesin fingerprint dalam sistem
+              Kelola dan monitor semua mesin absensi dalam sistem
             </Typography>
           </Box>
          

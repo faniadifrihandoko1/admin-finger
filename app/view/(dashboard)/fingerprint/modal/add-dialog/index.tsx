@@ -89,7 +89,7 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
             onChange={(e) => setFormData({ ...formData, webhook_url: e.target.value })}
             sx={{ mb: 2, borderRadius: 2 }}
           />
-          <TextField
+          {/* <TextField
             margin="dense"
             label="Server ID"
             fullWidth
@@ -98,8 +98,8 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
             value={formData.server_id}
             onChange={(e) => setFormData({ ...formData, server_id: parseInt(e.target.value) || 0 })}
             sx={{ mb: 2, borderRadius: 2 }}
-          />
-          <TextField
+          /> */}
+          {/* <TextField
             margin="dense"
             label="Device Type ID"
             fullWidth
@@ -108,7 +108,7 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
             value={formData.device_type_id}
             onChange={(e) => setFormData({ ...formData, device_type_id: parseInt(e.target.value) || 0 })}
             sx={{ borderRadius: 2 }}
-          />
+          /> */}
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
           <Button onClick={handleCloseDialog} sx={{ borderRadius: 2 }}>
@@ -119,11 +119,11 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
             onClick={handleSave}
             sx={{
               borderRadius: 2,
-              background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)',
+              background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #4caf50 100%)',
+                background: 'linear-gradient(135deg, #01579B 0%, #0170B9 50%, #0288D1 100%)',
                 transform: 'translateY(-1px)',
-                boxShadow: '0 4px 12px rgba(46, 125, 50, 0.4)',
+                boxShadow: '0 4px 12px rgba(1, 112, 185, 0.4)',
               },
               transition: 'all 0.3s ease',
             }}

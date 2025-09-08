@@ -14,7 +14,13 @@ export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
       <IconButton
         size="small"
         onClick={() => onEdit?.(row)}
-        sx={{ color: 'primary.main' }}
+        sx={{ 
+          color: '#0170B9',
+          '&:hover': {
+            backgroundColor: 'rgba(1, 112, 185, 0.08)',
+            color: '#01579B',
+          },
+        }}
       >
         <Edit />
       </IconButton>

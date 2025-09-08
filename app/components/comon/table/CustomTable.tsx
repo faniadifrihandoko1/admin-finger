@@ -273,7 +273,19 @@ export default function CustomTable({
                 value={pageSize}
                 onChange={handlePageSizeChange}
                 size="small"
-                sx={{ minWidth: 60 }}
+                sx={{ 
+                  minWidth: 60,
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#0170B9',
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#01579B',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#0170B9',
+                    borderWidth: 2,
+                  },
+                }}
               >
                 <MenuItem value={5}>5</MenuItem>
                 <MenuItem value={10}>10</MenuItem>
@@ -292,14 +304,14 @@ export default function CustomTable({
                   '& .MuiPaginationItem-root': {
                     borderRadius: 2,
                     '&.Mui-selected': {
-                      backgroundColor: 'primary.main',
+                      backgroundColor: '#0170B9',
                       color: 'white',
                       '&:hover': {
-                        backgroundColor: 'primary.dark',
+                        backgroundColor: '#01579B',
                       },
                     },
                     '&:hover': {
-                      backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                      backgroundColor: 'rgba(1, 112, 185, 0.1)',
                     },
                   },
                 }}

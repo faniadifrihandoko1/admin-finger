@@ -1,6 +1,6 @@
 import CustomTable from "@/app/components/comon/table/CustomTable";
 import { useTableColumns } from "./table-columns";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FingerprintMachine } from "../utils/type";
 import { AddDialog } from "../modal/add-dialog";
 import { dataMachine } from "../utils/data";
@@ -45,6 +45,12 @@ export const FingerprintTable = () => {
       machine.cloud_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       machine.sn.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // Calculate pagination
+    const totalRows = filteredMachines.length;
+    const startIndex = page * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedMachines = filteredMachines.slice(startIndex, endIndex);
 
     function handleOpenDialog(machine?: FingerprintMachine) {
       if (machine) {
@@ -130,6 +136,11 @@ export const FingerprintTable = () => {
       setSnackbar({ open: true, message: 'Data berhasil diperbarui!', severity: 'success' });
     }
 
+    // Reset page when search term changes
+    React.useEffect(() => {
+      setPage(0);
+    }, [searchTerm]);
+
 
     return (
       <>
@@ -145,12 +156,28 @@ export const FingerprintTable = () => {
                   minWidth: 300,
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 2,
+                    '&:hover': {
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#0170B9',
+                      },
+                    },
+                    '&.Mui-focused': {
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#0170B9',
+                        borderWidth: 2,
+                      },
+                    },
+                  },
+                  '& .MuiInputLabel-root': {
+                    '&.Mui-focused': {
+                      color: '#0170B9',
+                    },
                   },
                 }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Search sx={{ color: 'text.secondary' }} />
+                      <Search sx={{ color: '#0170B9' }} />
                     </InputAdornment>
                   ),
                 }}
@@ -159,7 +186,16 @@ export const FingerprintTable = () => {
                 variant="outlined"
                 startIcon={<FilterList />}
                 size="medium"
-                sx={{ borderRadius: 2 }}
+                sx={{ 
+                  borderRadius: 2,
+                  borderColor: '#0170B9',
+                  color: '#0170B9',
+                  '&:hover': {
+                    borderColor: '#01579B',
+                    backgroundColor: 'rgba(1, 112, 185, 0.08)',
+                    color: '#01579B',
+                  },
+                }}
               >
                 Filter
               </Button>
@@ -167,7 +203,16 @@ export const FingerprintTable = () => {
                 variant="outlined"
                 startIcon={<Refresh />}
                 size="medium"
-                sx={{ borderRadius: 2 }}
+                sx={{ 
+                  borderRadius: 2,
+                  borderColor: '#0170B9',
+                  color: '#0170B9',
+                  '&:hover': {
+                    borderColor: '#01579B',
+                    backgroundColor: 'rgba(1, 112, 185, 0.08)',
+                    color: '#01579B',
+                  },
+                }}
                 onClick={handleRefresh}
               >
                 Refresh
@@ -178,11 +223,11 @@ export const FingerprintTable = () => {
                 onClick={() => handleOpenDialog()}
                 sx={{
                   borderRadius: 2,
-                  background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)',
+                  background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #4caf50 100%)',
+                    background: 'linear-gradient(135deg, #01579B 0%, #0170B9 50%, #0288D1 100%)',
                     transform: 'translateY(-1px)',
-                    boxShadow: '0 4px 12px rgba(46, 125, 50, 0.4)',
+                    boxShadow: '0 4px 12px rgba(1, 112, 185, 0.4)',
                   },
                   transition: 'all 0.3s ease',
                 }}
@@ -195,11 +240,11 @@ export const FingerprintTable = () => {
 
         <CustomTable
           columns={columns}
-          rows={filteredMachines}
+          rows={paginatedMachines}
           pagination={true}
           page={page}
           pageSize={pageSize}
-          totalRows={filteredMachines.length}
+          totalRows={totalRows}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onRowClick={(row) => console.log('Row clicked:', row)}

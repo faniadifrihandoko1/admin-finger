@@ -45,13 +45,13 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-       <Box sx={{ p: 3, background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)', color: 'white', textAlign: 'center' }}>
+       <Box sx={{ p: 3, background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)', color: 'white', textAlign: 'center' }}>
          <Avatar sx={{ width: 60, height: 60, mx: 'auto', mb: 2, background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)' }}>
            <AdminPanelSettings sx={{ fontSize: 30 }} />
          </Avatar>
          <Typography variant="h6" fontWeight="bold" gutterBottom>Admin Panel</Typography>
          <Typography variant="body2" sx={{ opacity: 0.9 }}>Fingerprint System</Typography>
-         <Chip label="Online" size="small" sx={{ mt: 1, background: 'rgba(76, 175, 80, 0.3)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)' }} />
+         <Chip label="Online" size="small" sx={{ mt: 1, background: 'rgba(2, 136, 209, 0.3)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)' }} />
        </Box>
       <Divider />
       <Box sx={{ flex: 1, overflow: 'auto' }}>
@@ -68,16 +68,16 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
                       borderRadius: 2,
                       py: 1.5,
                       px: 2,
-                      backgroundColor: isSelected ? 'rgba(46, 125, 50, 0.15)' : 'transparent',
-                      border: isSelected ? '1px solid rgba(46, 125, 50, 0.3)' : '1px solid transparent',
-                      '&:hover': { backgroundColor: 'rgba(46, 125, 50, 0.08)', transform: 'translateX(4px)', boxShadow: '0 2px 8px rgba(46, 125, 50, 0.2)' },
+                      backgroundColor: isSelected ? 'rgba(1, 112, 185, 0.15)' : 'transparent',
+                      border: isSelected ? '1px solid rgba(1, 112, 185, 0.3)' : '1px solid transparent',
+                      '&:hover': { backgroundColor: 'rgba(1, 112, 185, 0.08)', transform: 'translateX(4px)', boxShadow: '0 2px 8px rgba(1, 112, 185, 0.2)' },
                       transition: 'all 0.3s ease-in-out',
                     }}
                   >
-                    <ListItemIcon sx={{ minWidth: 40, color: isSelected ? '#2e7d32' : 'text.secondary' }}>
+                    <ListItemIcon sx={{ minWidth: 40, color: isSelected ? '#0170B9' : 'text.secondary' }}>
                       <Icon />
                     </ListItemIcon>
-                    <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: isSelected ? 600 : 400, color: isSelected ? '#2e7d32' : 'text.primary' }} />
+                    <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: isSelected ? 600 : 400, color: isSelected ? '#0170B9' : 'text.primary' }} />
                   </ListItemButton>
                 </Link>
               </ListItem>

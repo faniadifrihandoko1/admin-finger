@@ -63,11 +63,11 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {/* Expiry Date Card */}
           <Chip
-            label="15 hari lagi jatuh tempo"
+            label="14 hari lagi jatuh tempo"
             sx={{
-              backgroundColor: 'rgba(33, 150, 243, 0.1)',
-              color: '#1976d2',
-              border: '1px solid rgba(33, 150, 243, 0.2)',
+              backgroundColor: 'rgba(1, 112, 185, 0.1)',
+              color: '#0170B9',
+              border: '1px solid rgba(1, 112, 185, 0.2)',
               fontWeight: 500,
               px: 2,
               py: 1,
@@ -82,9 +82,9 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
           <Chip
             label="Saldo fingerspot.io : Rp 0"
             sx={{
-              backgroundColor: 'rgba(46, 125, 50, 0.1)',
-              color: '#2e7d32',
-              border: '1px solid rgba(46, 125, 50, 0.2)',
+              backgroundColor: 'rgba(76, 175, 80, 0.1)',
+              color: '#4caf50',
+              border: '1px solid rgba(76, 175, 80, 0.2)',
               fontWeight: 500,
               px: 2,
               py: 1,
@@ -112,9 +112,9 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
               sx={{
                 width: 40,
                 height: 40,
-                background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)',
+                background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
                 border: '2px solid white',
-                boxShadow: '0 2px 8px rgba(46, 125, 50, 0.3)',
+                boxShadow: '0 2px 8px rgba(1, 112, 185, 0.3)',
               }}
             >
               A

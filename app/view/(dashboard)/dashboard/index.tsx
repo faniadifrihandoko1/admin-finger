@@ -228,10 +228,10 @@ export const DashboardView = () => {
       <Fade in timeout={500}>
         <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box>
-            <Typography variant="h4" fontWeight="bold" gutterBottom>
+            <Typography fontSize={22} fontWeight="bold" gutterBottom>
               Dashboard Overview 📊
             </Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography fontSize={18} color="text.secondary">
               Monitor sistem fingerprint dan aktivitas pengguna secara real-time
             </Typography>
           </Box>
@@ -240,11 +240,11 @@ export const DashboardView = () => {
             startIcon={<Refresh />}
             sx={{
               borderRadius: 2,
-              background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)',
+              background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #4caf50 100%)',
+                background: 'linear-gradient(135deg, #01579B 0%, #0170B9 50%, #0288D1 100%)',
                 transform: 'translateY(-2px)',
-                boxShadow: '0 4px 12px rgba(46, 125, 50, 0.4)',
+                boxShadow: '0 4px 12px rgba(1, 112, 185, 0.4)',
               },
               transition: 'all 0.3s ease',
             }}
@@ -341,7 +341,7 @@ export const DashboardView = () => {
                     borderRadius: 2,
                     backgroundColor: 'rgba(0,0,0,0.02)',
                     '&:hover': {
-                      backgroundColor: 'rgba(46, 125, 50, 0.04)',
+                      backgroundColor: 'rgba(1, 112, 185, 0.04)',
                     },
                     transition: 'all 0.2s ease',
                   }}
