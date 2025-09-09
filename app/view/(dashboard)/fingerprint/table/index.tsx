@@ -1,4 +1,5 @@
 import CustomTable from "@/app/components/comon/table/CustomTable";
+import { ConfirmDeleteDialog } from "@/app/components/comon/modal/modal-confirm-delete";
 import { useTableColumns } from "./table-columns";
 import React, { useState } from "react";
 import { FingerprintMachine } from "../utils/type";
@@ -21,6 +22,10 @@ export const FingerprintTable = () => {
       open: false, 
       message: '', 
       severity: 'success' as 'success' | 'error' 
+    });
+    const [deleteDialog, setDeleteDialog] = useState({
+      open: false,
+      machine: null as FingerprintMachine | null,
     });
 
     const columns = useTableColumns({
@@ -88,8 +93,22 @@ export const FingerprintTable = () => {
     }
 
     function handleDelete(cloudId: string) {
-      setMachines(prev => prev.filter(machine => machine.cloud_id !== cloudId));
-      setSnackbar({ open: true, message: 'Mesin berhasil dihapus!', severity: 'success' });
+      const machine = machines.find(m => m.cloud_id === cloudId);
+      if (machine) {
+        setDeleteDialog({ open: true, machine });
+      }
+    }
+
+    function confirmDelete() {
+      if (deleteDialog.machine) {
+        setMachines(prev => prev.filter(machine => machine.cloud_id !== deleteDialog.machine!.cloud_id));
+        setSnackbar({ open: true, message: 'Mesin berhasil dihapus!', severity: 'success' });
+        setDeleteDialog({ open: false, machine: null });
+      }
+    }
+
+    function cancelDelete() {
+      setDeleteDialog({ open: false, machine: null });
     }
 
     function handleRefresh() {
@@ -108,78 +127,8 @@ export const FingerprintTable = () => {
       <>
         <Grow in timeout={900}>
           <Box sx={{ mb: 3 }}>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <TextField
-                size="small"
-                placeholder="Cari mesin..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                sx={{
-                  minWidth: 300,
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: 2,
-                    '&:hover': {
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#0170B9',
-                      },
-                    },
-                    '&.Mui-focused': {
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#0170B9',
-                        borderWidth: 2,
-                      },
-                    },
-                  },
-                  '& .MuiInputLabel-root': {
-                    '&.Mui-focused': {
-                      color: '#0170B9',
-                    },
-                  },
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search sx={{ color: '#0170B9' }} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button
-                variant="outlined"
-                startIcon={<FilterList />}
-                size="medium"
-                sx={{ 
-                  borderRadius: 2,
-                  borderColor: '#0170B9',
-                  color: '#0170B9',
-                  '&:hover': {
-                    borderColor: '#01579B',
-                    backgroundColor: 'rgba(1, 112, 185, 0.08)',
-                    color: '#01579B',
-                  },
-                }}
-              >
-                Filter
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<Refresh />}
-                size="medium"
-                sx={{ 
-                  borderRadius: 2,
-                  borderColor: '#0170B9',
-                  color: '#0170B9',
-                  '&:hover': {
-                    borderColor: '#01579B',
-                    backgroundColor: 'rgba(1, 112, 185, 0.08)',
-                    color: '#01579B',
-                  },
-                }}
-                onClick={handleRefresh}
-              >
-                Refresh
-              </Button>
-              <Button
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+            <Button
                 variant="contained"
                 startIcon={<Add />}
                 onClick={() => handleOpenDialog()}
@@ -195,7 +144,81 @@ export const FingerprintTable = () => {
                 }}
               >
                 Tambah Mesin
-              </Button>
+               </Button>
+               
+               <Stack direction="row" spacing={2} alignItems="center">
+                  <TextField
+                    size="small"
+                    placeholder="Cari mesin..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    sx={{
+                      minWidth: 300,
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2,
+                        '&:hover': {
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#0170B9',
+                          },
+                        },
+                        '&.Mui-focused': {
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#0170B9',
+                            borderWidth: 2,
+                          },
+                        },
+                      },
+                      '& .MuiInputLabel-root': {
+                        '&.Mui-focused': {
+                          color: '#0170B9',
+                        },
+                      },
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search sx={{ color: '#0170B9' }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Button
+                    variant="outlined"
+                    startIcon={<FilterList />}
+                    size="medium"
+                    sx={{ 
+                      borderRadius: 2,
+                      borderColor: '#0170B9',
+                      color: '#0170B9',
+                      '&:hover': {
+                        borderColor: '#01579B',
+                        backgroundColor: 'rgba(1, 112, 185, 0.08)',
+                        color: '#01579B',
+                      },
+                    }}
+                  >
+                    Filter
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    startIcon={<Refresh />}
+                    size="medium"
+                    sx={{ 
+                      borderRadius: 2,
+                      borderColor: '#0170B9',
+                      color: '#0170B9',
+                      '&:hover': {
+                        borderColor: '#01579B',
+                        backgroundColor: 'rgba(1, 112, 185, 0.08)',
+                        color: '#01579B',
+                      },
+                    }}
+                    onClick={handleRefresh}
+                  >
+                    Refresh
+                  </Button>
+                </Stack>
+              
             </Stack>
           </Box>
         </Grow>
@@ -223,15 +246,27 @@ export const FingerprintTable = () => {
             handleSave={handleSave} 
           />
         )}
+
+        {/* Delete Confirmation Dialog */}
+        <ConfirmDeleteDialog
+          open={deleteDialog.open}
+          onClose={cancelDelete}
+          onConfirm={confirmDelete}
+          title="Hapus Mesin?"
+          itemName={deleteDialog.machine?.device_name}
+          itemType="mesin"
+        />
         
         <Snackbar
           open={snackbar.open}
           autoHideDuration={3000}
           onClose={() => setSnackbar({ ...snackbar, open: false })}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <Alert
             onClose={() => setSnackbar({ ...snackbar, open: false })}
             severity={snackbar.severity}
+            variant="filled"
             sx={{ width: '100%' }}
           >
             {snackbar.message}

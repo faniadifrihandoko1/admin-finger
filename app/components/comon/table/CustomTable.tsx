@@ -172,14 +172,12 @@ export default function CustomTable({
   };
 
   return (
-    <Paper
+    <Box
       sx={{
         borderRadius: 3,
         overflow: 'hidden',
-        background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255,255,255,0.2)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+        border: '2px solid rgba(0,0,0,0.1)',
+       
         ...sx,
       }}
       className={className}
@@ -326,6 +324,6 @@ export default function CustomTable({
           </Stack>
         </Box>
       )}
-    </Paper>
+    </Box>
   );
 }

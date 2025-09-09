@@ -24,6 +24,19 @@ export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
       >
         <Edit />
       </IconButton>
+      <IconButton
+        size="small"
+        onClick={() => onDelete?.(row.cloud_id)}
+        sx={{ 
+          color: '#d32f2f',
+          '&:hover': {
+            backgroundColor: 'rgba(211, 47, 47, 0.08)',
+            color: '#b71c1c',
+          },
+        }}
+      >
+        <Delete />
+      </IconButton>
     </Box>
   );
 };

@@ -18,7 +18,7 @@ export default function Loading() {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)',
+        background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -44,7 +44,7 @@ export default function Loading() {
               height: 80,
               mx: 'auto',
               mb: 3,
-              background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%)',
+              background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
             }}
           >
             <Fingerprint sx={{ fontSize: 40 }} />
@@ -56,7 +56,7 @@ export default function Loading() {
               size={60}
               thickness={4}
               sx={{
-                color: '#2e7d32',
+                color: '#0170B9',
                 '& .MuiCircularProgress-circle': {
                   strokeLinecap: 'round',
                 },
@@ -92,7 +92,7 @@ export default function Loading() {
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  backgroundColor: '#2e7d32',
+                  backgroundColor: '#0170B9',
                   animation: 'pulse 1.4s ease-in-out infinite both',
                   animationDelay: `${index * 0.16}s`,
                   '@keyframes pulse': {
