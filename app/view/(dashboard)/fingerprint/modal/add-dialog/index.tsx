@@ -72,6 +72,7 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, handl
                   fullWidth
                   required
                   variant="outlined"
+                  disabled={!!editingMachine}
                   placeholder="Isikan Cloud ID Mesin Absensi"
                   error={!!errors.cloudId}
                   helperText={errors.cloudId?.message}
@@ -79,7 +80,7 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, handl
                 />
               )}
             />
-            <Controller
+            <Controller 
               name="serialNumber"
               control={control}
               render={({ field }) => (
@@ -90,6 +91,7 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, handl
                   fullWidth
                   required
                   variant="outlined"
+                  disabled={!!editingMachine}
                   placeholder="Isikan Nomor Seri Mesin Absensi"
                   error={!!errors.serialNumber}
                   helperText={errors.serialNumber?.message}

@@ -275,6 +275,8 @@ export default function CustomTable({
                 size="small"
                 sx={{ 
                   minWidth: 60,
+                  width: 60,
+                  height: 32,
                   '& .MuiOutlinedInput-notchedOutline': {
                     borderColor: '#0170B9',
                   },
@@ -284,6 +286,10 @@ export default function CustomTable({
                   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                     borderColor: '#0170B9',
                     borderWidth: 2,
+                  },
+                  '& .MuiSelect-select': {
+                    padding: '4px 8px',
+                    fontSize: '0.875rem',
                   },
                 }}
               >
