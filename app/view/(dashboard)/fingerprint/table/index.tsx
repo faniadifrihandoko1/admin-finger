@@ -6,6 +6,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Grow,
   InputAdornment,
   Snackbar,
@@ -14,27 +15,23 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
-import { FingerprintMachine } from "../utils/type";
+import { AddDialog } from "../modal/add-dialog";
 import { useTableColumns } from "./table-columns";
 
 export const FingerprintTable = () => {
   // const [machines, setMachines] = useState<FingerprintMachine[]>(dataMachine);
-  const { data: mesinFinger, isLoading } = useGetDataPeriod();
+  const { data: mesinFinger, isLoading, isFetching, refetch } = useGetDataPeriod();
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
-  const [_openAdd, setOpenAdd] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
   const [pageSize, setPageSize] = useState(5);
-  const [_editingMachine, setEditingMachine] =
-    useState<FingerprintMachine | null>(null);
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
     severity: "success" as "success" | "error",
   });
-  const [_deleteDialog, _setDeleteDialog] = useState({
-    open: false,
-    machine: null as FingerprintMachine | null,
-  });
+
 
   const columns = useTableColumns();
 
@@ -48,6 +45,10 @@ export const FingerprintTable = () => {
 
   const recordsFiltered = filteredMachines?.length ?? 0;
 
+  const start = page * pageSize;
+  const end = start + pageSize;
+  const paginatedRows = (filteredMachines || []).slice(start, end);
+
   const handleLimitChange = (limit: number) => {
     setPageSize(limit);
     setPage(0);
@@ -60,20 +61,24 @@ export const FingerprintTable = () => {
   // Calculate pagination
   // const totalRows = mesinFinger?.length || 0;
 
-  function handleOpenDialog(machine?: FingerprintMachine) {
-    setEditingMachine(machine || null);
-    setOpenAdd(true);
-  }
+ const handleAdd = () => setOpenAdd(!openAdd);
 
 
-  function handleRefresh() {
-    // In a real app, this would fetch fresh data from API
-    // setMachines([...dataMachine]);
-    setSnackbar({
-      open: true,
-      message: "Data berhasil diperbarui!",
-      severity: "success",
-    });
+  async function handleRefresh() {
+    try {
+      await refetch();
+      setSnackbar({
+        open: true,
+        message: "Data berhasil diperbarui!",
+        severity: "success",
+      });
+    } catch (_error) {
+      setSnackbar({
+        open: true,
+        message: "Gagal memperbarui data",
+        severity: "error",
+      });
+    }
   }
 
   // Reset page when search term changes
@@ -94,7 +99,7 @@ export const FingerprintTable = () => {
             <Button
               variant="contained"
               startIcon={<Add />}
-              onClick={() => handleOpenDialog()}
+              onClick={() => handleAdd()}
               sx={{
                 borderRadius: 2,
                 background:
@@ -166,7 +171,7 @@ export const FingerprintTable = () => {
               </Button>
               <Button
                 variant="outlined"
-                startIcon={<Refresh />}
+                startIcon={isFetching ? <CircularProgress size={18} color="inherit" /> : <Refresh />}
                 size="medium"
                 sx={{
                   borderRadius: 2,
@@ -178,6 +183,7 @@ export const FingerprintTable = () => {
                     color: "#01579B",
                   },
                 }}
+                disabled={isFetching}
                 onClick={handleRefresh}
               >
                 Refresh
@@ -189,9 +195,9 @@ export const FingerprintTable = () => {
 
       <Box sx={{  width: "100%" }}>
         <DataGrid
-          rows={filteredMachines || []}
+          rows={paginatedRows}
           columns={columns}
-          loading={isLoading}
+          loading={isLoading || isFetching}
           getRowId={(row) => row.SN}
           showColumnVerticalBorder
           showCellVerticalBorder
@@ -248,7 +254,13 @@ export const FingerprintTable = () => {
         />
       </Box>
 
-
+      {openAdd && (
+        <AddDialog
+          openDialog={openAdd}
+          handleCloseDialog={handleAdd}
+          handleSave={(_data) => {}}
+        />
+      )}
 
       <Snackbar
         open={snackbar.open}

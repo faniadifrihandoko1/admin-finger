@@ -3,7 +3,7 @@ import { MesinFingerData } from "@/hooks/query/use-finger";
 import { Delete, Edit } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { useState } from "react";
-import { AddDialog } from "../modal/add-dialog";
+import { EditDialog } from "../modal/edit-dialog";
 
 interface TableActionProps {
   row: MesinFingerData;
@@ -53,11 +53,10 @@ export const TableAction = ({ row }: TableActionProps) => {
         <Delete />
       </IconButton>
       {openEdit && (
-        <AddDialog
+        <EditDialog
           openDialog={openEdit}
           handleCloseDialog={handleEdit}
-          editingMachine={row}
-          handleSave={() => {}}
+          data={row}
 
         />
       )}

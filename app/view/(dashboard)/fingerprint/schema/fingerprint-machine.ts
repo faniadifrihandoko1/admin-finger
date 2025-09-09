@@ -1,20 +1,20 @@
 import { z } from "zod";
 
 export const fingerprintMachineSchema = z.object({
-  cloudId: z
+  ClientName: z
     .string()
     .min(1, "Cloud ID harus diisi")
     .min(3, "Cloud ID minimal 3 karakter"),
-  serialNumber: z
+    SN: z
     .string()
     .min(1, "Nomor Seri harus diisi")
     .min(3, "Nomor Seri minimal 3 karakter"),
-  machineName: z
+    device_name: z
     .string()
     .min(1, "Nama Mesin Absensi harus diisi")
     .min(2, "Nama Mesin Absensi minimal 2 karakter")
     .max(100, "Nama Mesin Absensi maksimal 100 karakter"),
-  webhookUrl: z
+    webHookLink: z
     .string()
     .url("Webhook URL harus berupa URL yang valid")
     .optional()

@@ -1,4 +1,3 @@
-import { MesinFingerData } from "@/hooks/query/use-finger";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Button,
@@ -18,14 +17,12 @@ import {
 interface AddDialogProps {
   openDialog: boolean;
   handleCloseDialog: () => void;
-  editingMachine: MesinFingerData | null;
   handleSave: (data: FingerprintMachineFormData) => void;
 }
 
 export const AddDialog = ({
   openDialog,
   handleCloseDialog,
-  editingMachine,
   handleSave,
 }: AddDialogProps) => {
   const {
@@ -36,10 +33,10 @@ export const AddDialog = ({
   } = useForm<FingerprintMachineFormData>({
     resolver: zodResolver(fingerprintMachineSchema),
     defaultValues: {
-      cloudId: editingMachine?.cloud_id || "",
-      serialNumber: editingMachine?.sn || "",
-      machineName: editingMachine?.device_name || "",
-      webhookUrl: editingMachine?.webhook_url || "",
+      SN:  "",
+      device_name:  "",
+      webHookLink:  "",
+      ClientName:  "",
     },
   });
 
@@ -67,36 +64,33 @@ export const AddDialog = ({
       }}
     >
       <DialogTitle sx={{ pb: 1, fontWeight: "bold", fontSize: "1.25rem" }}>
-        {editingMachine ? "Edit Mesin Fingerprint" : "Tambah Mesin Fingerprint"}
+        Tambah Mesin Fingerprint
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-          {editingMachine
-            ? "Perbarui informasi mesin"
-            : "Tambahkan mesin fingerprint baru ke sistem"}
+          Tambahkan mesin fingerprint baru ke sistem
         </Typography>
       </DialogTitle>
       <DialogContent sx={{ pt: 2 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name="cloudId"
+            name="ClientName"
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
                 margin="dense"
-                label="Cloud ID"
+                label="Nama Client"
                 fullWidth
                 required
                 variant="outlined"
-                disabled={!!editingMachine}
-                placeholder="Isikan Cloud ID Mesin Absensi"
-                error={!!errors.cloudId}
-                helperText={errors.cloudId?.message}
+                placeholder="Isikan Nama Client Mesin Absensi"
+                error={!!errors.ClientName}
+                helperText={errors.ClientName?.message}
                 sx={{ mb: 2, borderRadius: 2 }}
               />
             )}
           />
           <Controller
-            name="serialNumber"
+            name="SN"
             control={control}
             render={({ field }) => (
               <TextField
@@ -106,16 +100,15 @@ export const AddDialog = ({
                 fullWidth
                 required
                 variant="outlined"
-                disabled={!!editingMachine}
-                placeholder="Isikan Nomor Seri Mesin Absensi"
-                error={!!errors.serialNumber}
-                helperText={errors.serialNumber?.message}
+                placeholder="Isikan Nomor S eri Mesin Absensi"
+                error={!!errors.SN}
+                helperText={errors.SN?.message}
                 sx={{ mb: 2, borderRadius: 2 }}
               />
             )}
           />
           <Controller
-            name="machineName"
+            name="device_name"
             control={control}
             render={({ field }) => (
               <TextField
@@ -126,15 +119,14 @@ export const AddDialog = ({
                 required
                 variant="outlined"
                 placeholder="Isi nama mesin absensi"
-                error={!!errors.machineName}
-                helperText={errors.machineName?.message}
+                error={!!errors.device_name}
+                helperText={errors.device_name?.message}
                 sx={{ mb: 2, borderRadius: 2 }}
               />
             )}
           />
-          {editingMachine && (
             <Controller
-              name="webhookUrl"
+              name="webHookLink"
               control={control}
               render={({ field }) => (
                 <TextField
@@ -144,16 +136,15 @@ export const AddDialog = ({
                   fullWidth
                   variant="outlined"
                   placeholder="https://example.com/webhook (opsional)"
-                  error={!!errors.webhookUrl}
+                  error={!!errors.webHookLink}
                   helperText={
-                    errors.webhookUrl?.message ||
+                    errors.webHookLink?.message ||
                     "URL untuk menerima notifikasi dari mesin (opsional)"
                   }
                   sx={{ mb: 2, borderRadius: 2 }}
                 />
               )}
             />
-          )}
         </form>
       </DialogContent>
       <DialogActions sx={{ p: 3, pt: 1 }}>
@@ -176,7 +167,7 @@ export const AddDialog = ({
             transition: "all 0.3s ease",
           }}
         >
-          {editingMachine ? "Update" : "Tambah"}
+          Tambah
         </Button>
       </DialogActions>
     </Dialog>
