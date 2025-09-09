@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  AccessTime,
   Block,
   Cancel,
   CheckCircle,
@@ -466,7 +465,7 @@ export const DashboardView = () => {
       </Grow>
 
       {/* Recent Activity */}
-      <Grow in timeout={1000}>
+      {/* <Grow in timeout={1000}>
         <Paper
           sx={{
             borderRadius: 3,
@@ -530,7 +529,7 @@ export const DashboardView = () => {
               ))}
             </Box>
           </Paper>
-        </Grow>
+        </Grow> */}
     </Box>
   );
 };

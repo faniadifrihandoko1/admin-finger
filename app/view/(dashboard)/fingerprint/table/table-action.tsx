@@ -1,14 +1,21 @@
+import { ModalConfirmDelete } from "@/app/components/comon/modal/modal-confirm-delete";
+import { MesinFingerData } from "@/hooks/query/use-finger";
 import { Delete, Edit } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import { FingerprintMachine } from "../utils/type";
+import { useState } from "react";
+import { AddDialog } from "../modal/add-dialog";
 
 interface TableActionProps {
-  row: FingerprintMachine;
-  onEdit?: (machine: FingerprintMachine) => void;
-  onDelete?: (id: string) => void;
+  row: MesinFingerData;
+
 }
 
-export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
+export const TableAction = ({ row }: TableActionProps) => {
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const handleEdit = () => setOpenEdit(!openEdit);
+  const handleDelete = () => setOpenDelete(!openDelete);
   return (
     <Box
       sx={{
@@ -20,7 +27,8 @@ export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
     >
       <IconButton
         size="small"
-        onClick={() => onEdit?.(row)}
+        onClick={handleEdit}
+        // onClick={() => onEdit?.(row)}
         sx={{
           color: "#0170B9",
           "&:hover": {
@@ -33,7 +41,7 @@ export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
       </IconButton>
       <IconButton
         size="small"
-        onClick={() => onDelete?.(row.cloud_id)}
+        // onClick={() => onDelete?.(row.SN)}
         sx={{
           color: "#d32f2f",
           "&:hover": {
@@ -44,6 +52,25 @@ export const TableAction = ({ row, onEdit, onDelete }: TableActionProps) => {
       >
         <Delete />
       </IconButton>
+      {openEdit && (
+        <AddDialog
+          openDialog={openEdit}
+          handleCloseDialog={handleEdit}
+          editingMachine={row}
+          handleSave={() => {}}
+
+        />
+      )}
+      {openDelete && (
+        <ModalConfirmDelete
+        onConfirm={() => {}}
+        title="Hapus Mesin?"
+        itemName={row.device_name}
+        itemType="mesin"
+        open={openDelete}
+        onClose={handleDelete}
+        />
+      )}
     </Box>
   );
 };

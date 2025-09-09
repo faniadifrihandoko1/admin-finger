@@ -1,3 +1,4 @@
+import { MesinFingerData } from "@/hooks/query/use-finger";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Button,
@@ -13,12 +14,11 @@ import {
   FingerprintMachineFormData,
   fingerprintMachineSchema,
 } from "../../schema/fingerprint-machine";
-import { FingerprintMachine } from "../../utils/type";
 
 interface AddDialogProps {
   openDialog: boolean;
   handleCloseDialog: () => void;
-  editingMachine: FingerprintMachine | null;
+  editingMachine: MesinFingerData | null;
   handleSave: (data: FingerprintMachineFormData) => void;
 }
 

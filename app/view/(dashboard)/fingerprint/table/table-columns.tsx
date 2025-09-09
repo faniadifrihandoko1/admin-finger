@@ -1,106 +1,111 @@
-import { GridColumnDef } from "@/app/components/comon/table/CustomTable";
+import { MesinFingerData } from "@/hooks/query/use-finger";
+
+
 import {
-  Cloud,
-  Computer,
-} from "@mui/icons-material";
-import {
-  Avatar,
   Box,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 import { useMemo } from "react";
-import { FingerprintMachine } from "../utils/type";
 import { TableAction } from "./table-action";
 
-interface UseTableColumnsProps {
-  onEdit?: (machine: FingerprintMachine) => void;
-  onDelete?: (id: string) => void;
-}
 
 
 
 
 
 
-export function useTableColumns({
-  onEdit,
-  onDelete,
-}: UseTableColumnsProps = {}) {
+export function useTableColumns() {
   return useMemo(() => {
-    const columns: GridColumnDef[] = [
+    const columns: GridColDef[] = [
+      {
+        field: "ClientName",
+        headerName: "Client Name",
+        flex: 1.5,
+        minWidth: 150,
+        headerAlign: "center",
+        align: "center",
+        display: "flex",
+        renderCell: (params: GridRenderCellParams<MesinFingerData>) => (
+            <Tooltip title={params.row.ClientName} placement="top" arrow>
+              <Typography variant="body2" fontFamily="monospace" noWrap>
+                {params.row.ClientName}
+              </Typography>
+            </Tooltip>
+        ),
+      },
       {
         field: "device_name",
-        headerName: "Device",
+        headerName: "Nama Mesin",
         flex: 2,
         minWidth: 200,
-        renderCell: ({ row }: { row: FingerprintMachine }) => (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Avatar
-              sx={{
-                width: 40,
-                height: 40,
-                mr: 2,
-                background:
-                  "linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)",
-                boxShadow: "0 2px 8px rgba(1, 112, 185, 0.3)",
-              }}
-            >
-              <Computer />
-            </Avatar>
+        headerAlign: "center",
+        align: "center",
+        display: "flex",
+        renderCell: (params: GridRenderCellParams<MesinFingerData>) => (
+          <Box sx={{ display: "flex", alignItems: "center", marginLeft: 2 }}>
+
             <Box>
-              <Typography variant="body2" fontWeight={500}>
-                {row.device_name}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {row.device_type_name}
-              </Typography>
+              <Tooltip title={params.row.device_name} placement="top" arrow>
+                <Typography variant="body2" fontWeight={500} noWrap>
+                  {params.row.device_name}
+                </Typography>
+              </Tooltip>
+
             </Box>
           </Box>
         ),
       },
       {
-        field: "cloud_id",
-        headerName: "Cloud ID",
+        field: "SN",
+        headerName: "Nomor Seri",
         flex: 1.5,
         minWidth: 150,
-        renderCell: ({ row }: { row: FingerprintMachine }) => (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Cloud sx={{ fontSize: 16, mr: 1, color: "text.secondary" }} />
-            <Typography variant="body2" fontFamily="monospace">
-              {row.cloud_id}
-            </Typography>
-          </Box>
+        align: "center",
+        headerAlign: "center",
+        display: "flex",
+        renderCell: (params: GridRenderCellParams<MesinFingerData>) => (
+            <Tooltip title={params.row.SN} placement="top" arrow>
+              <Typography variant="body2" fontFamily="monospace" noWrap>
+                {params.row.SN}
+              </Typography>
+            </Tooltip>
         ),
       },
       {
-        field: "sn",
-        headerName: "Serial Number",
-        flex: 1.5,
-        minWidth: 150,
-        renderCell: ({ row }: { row: FingerprintMachine }) => (
-          <Typography variant="body2" fontFamily="monospace">
-            {row.sn}
-          </Typography>
-        ),
-      },
-
-      {
-        field: "user_id",
-        headerName: "User ID",
+        field: "ip_address",
+        headerName: "IP Address",
+        align: "center",
+        headerAlign: "center",
+        display: "flex",
         flex: 1,
         minWidth: 100,
-        renderCell: ({ row }: { row: FingerprintMachine }) => (
-          <Typography variant="body2" fontWeight={500}>
-            {row.user_id}
+        renderCell: (params: GridRenderCellParams<MesinFingerData>) => (
+          <Typography variant="body2" textAlign={"center"} fontWeight={500} noWrap>
+            {params.row.ip_address || "-"}
           </Typography>
         ),
       },
       {
-        field: "last_activity",
+        field: "lastUpdate_at",
         headerName: "Last Activity",
         flex: 1.5,
         minWidth: 150,
+        align: "center",
+        headerAlign: "center",
+        display: "flex",
         type: "date",
+        valueGetter: (params: any) => {
+          const value = params.value as string | undefined;
+          return value ? new Date(value) : null;
+        },
+        renderCell: (params: GridRenderCellParams<MesinFingerData>) => (
+          <Typography variant="body2" fontWeight={500}>
+            {params.row.lastUpdate_at ? dayjs(params.row.lastUpdate_at as unknown as Date).format("DD MMMM YYYY") : "-"}
+          </Typography>
+        ),
       },
       {
         field: "actions",
@@ -108,13 +113,16 @@ export function useTableColumns({
         flex: 1,
         minWidth: 120,
         align: "center",
+        headerAlign: "center",
+        display: "flex",
+        sortable: false,
 
-        renderCell: ({ row }: { row: FingerprintMachine }) => (
-          <TableAction row={row} onEdit={onEdit} onDelete={onDelete} />
+        renderCell: (params: GridRenderCellParams<MesinFingerData>) => (
+          <TableAction row={params.row as unknown as MesinFingerData}  />
         ),
       },
     ];
 
     return columns;
-  }, [onEdit, onDelete]);
+  }, []);
 }

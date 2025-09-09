@@ -20,7 +20,7 @@ interface ConfirmDeleteDialogProps {
   loading?: boolean;
 }
 
-export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
+export const ModalConfirmDelete: React.FC<ConfirmDeleteDialogProps> = ({
   open,
   onClose,
   onConfirm,

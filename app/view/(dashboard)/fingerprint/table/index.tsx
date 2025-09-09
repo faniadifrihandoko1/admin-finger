@@ -1,11 +1,7 @@
-import CustomTable from "@/app/components/comon/table/CustomTable";
-import { ConfirmDeleteDialog } from "@/app/components/comon/modal/modal-confirm-delete";
-import { useTableColumns } from "./table-columns";
-import React, { useState } from "react";
-import { FingerprintMachine } from "../utils/type";
-import { AddDialog } from "../modal/add-dialog";
-import { dataMachine } from "../utils/data";
-import { FingerprintMachineFormData } from "../schema/fingerprint-machine";
+"use client";
+import PaginationSectionTableCustom from "@/app/components/comon/table/PaginationSectionTableCustom";
+import { useGetDataPeriod } from "@/hooks/query/use-finger";
+import { Add, FilterList, Refresh, Search } from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -16,133 +12,63 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { FilterList, Refresh, Search, Add } from "@mui/icons-material";
+import { DataGrid } from "@mui/x-data-grid";
+import React, { useState } from "react";
+import { FingerprintMachine } from "../utils/type";
+import { useTableColumns } from "./table-columns";
 
 export const FingerprintTable = () => {
-  const [machines, setMachines] = useState<FingerprintMachine[]>(dataMachine);
+  // const [machines, setMachines] = useState<FingerprintMachine[]>(dataMachine);
+  const { data: mesinFinger, isLoading } = useGetDataPeriod();
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
-  const [openAdd, setOpenAdd] = useState(false);
+  const [_openAdd, setOpenAdd] = useState(false);
   const [pageSize, setPageSize] = useState(5);
-  const [editingMachine, setEditingMachine] =
+  const [_editingMachine, setEditingMachine] =
     useState<FingerprintMachine | null>(null);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
     severity: "success" as "success" | "error",
   });
-  const [deleteDialog, setDeleteDialog] = useState({
+  const [_deleteDialog, _setDeleteDialog] = useState({
     open: false,
     machine: null as FingerprintMachine | null,
   });
 
-  const columns = useTableColumns({
-    onEdit: handleOpenDialog,
-    onDelete: handleDelete,
-  });
+  const columns = useTableColumns();
 
-  const filteredMachines = machines.filter(
+  console.log("mesinFinger", mesinFinger);
+
+  const filteredMachines = mesinFinger?.filter(
     machine =>
       machine.device_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      machine.device_type_name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      machine.cloud_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      machine.sn.toLowerCase().includes(searchTerm.toLowerCase())
+      machine.SN.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const recordsFiltered = filteredMachines?.length ?? 0;
+
+  const handleLimitChange = (limit: number) => {
+    setPageSize(limit);
+    setPage(0);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   // Calculate pagination
-  const totalRows = filteredMachines.length;
-  const startIndex = page * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedMachines = filteredMachines.slice(startIndex, endIndex);
+  // const totalRows = mesinFinger?.length || 0;
 
   function handleOpenDialog(machine?: FingerprintMachine) {
     setEditingMachine(machine || null);
     setOpenAdd(true);
   }
 
-  function handleCloseDialog() {
-    setOpenAdd(false);
-    setEditingMachine(null);
-  }
-
-  function handleSave(data: FingerprintMachineFormData) {
-    if (editingMachine) {
-      setMachines(prev =>
-        prev.map(machine =>
-          machine.cloud_id === editingMachine.cloud_id
-            ? {
-                ...machine,
-                device_name: data.machineName,
-                cloud_id: data.cloudId,
-                sn: data.serialNumber,
-                webhook_url: data.webhookUrl || "",
-                last_activity: new Date().toLocaleString(),
-              }
-            : machine
-        )
-      );
-      setSnackbar({
-        open: true,
-        message: "Mesin berhasil diperbarui!",
-        severity: "success",
-      });
-    } else {
-      const newMachine: FingerprintMachine = {
-        cloud_id: data.cloudId,
-        sn: data.serialNumber,
-        device_name: data.machineName,
-        device_type_name: "Fingerprint Device",
-        user_id: Math.floor(Math.random() * 1000),
-        webhook_url: "", // Default empty for new machines
-        server_id: 1,
-        device_type_id: 1,
-        img: "",
-        url_: "",
-        created_at: new Date().toLocaleString(),
-        last_activity: new Date().toLocaleString(),
-      };
-      setMachines(prev => [...prev, newMachine]);
-      setSnackbar({
-        open: true,
-        message: "Mesin berhasil ditambahkan!",
-        severity: "success",
-      });
-    }
-    handleCloseDialog();
-  }
-
-  function handleDelete(cloudId: string) {
-    const machine = machines.find(m => m.cloud_id === cloudId);
-    if (machine) {
-      setDeleteDialog({ open: true, machine });
-    }
-  }
-
-  function confirmDelete() {
-    if (deleteDialog.machine) {
-      setMachines(prev =>
-        prev.filter(
-          machine => machine.cloud_id !== deleteDialog.machine!.cloud_id
-        )
-      );
-      setSnackbar({
-        open: true,
-        message: "Mesin berhasil dihapus!",
-        severity: "success",
-      });
-      setDeleteDialog({ open: false, machine: null });
-    }
-  }
-
-  function cancelDelete() {
-    setDeleteDialog({ open: false, machine: null });
-  }
 
   function handleRefresh() {
     // In a real app, this would fetch fresh data from API
-    setMachines([...dataMachine]);
+    // setMachines([...dataMachine]);
     setSnackbar({
       open: true,
       message: "Data berhasil diperbarui!",
@@ -261,39 +187,68 @@ export const FingerprintTable = () => {
         </Box>
       </Grow>
 
-      <CustomTable
-        columns={columns}
-        rows={paginatedMachines}
-        pagination={true}
-        page={page}
-        pageSize={pageSize}
-        totalRows={totalRows}
-        onPageChange={setPage}
-        onPageSizeChange={setPageSize}
-        onRowClick={row => console.log("Row clicked:", row)}
-        getRowId={row => row.user_id}
-        rowHeight={60}
-        headerHeight={56}
-      />
-
-      {openAdd && (
-        <AddDialog
-          openDialog={openAdd}
-          handleCloseDialog={handleCloseDialog}
-          editingMachine={editingMachine}
-          handleSave={handleSave}
+      <Box sx={{  width: "100%" }}>
+        <DataGrid
+          rows={filteredMachines || []}
+          columns={columns}
+          loading={isLoading}
+          getRowId={(row) => row.SN}
+          showColumnVerticalBorder
+          showCellVerticalBorder
+          disableRowSelectionOnClick
+          hideFooterSelectedRowCount
+          rowHeight={60}
+          columnHeaderHeight={60}
+          slots={{
+            pagination: () => (
+              <Box
+                width="100%"
+                paddingX={2}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                marginTop="0.75rem"
+                marginBottom="0.75rem"
+              >
+                <PaginationSectionTableCustom
+                  page={page}
+                  pageSize={pageSize}
+                  recordsFiltered={recordsFiltered}
+                  handleLimitChange={handleLimitChange}
+                  handlePageChange={handlePageChange}
+                />
+              </Box>
+            ),
+          }}
+          sx={{
+            // borderRadius: 3,
+            border: "2px solid rgba(0,0,0,0.06)",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+            "& .MuiDataGrid-columnHeaders": {
+              background:
+                "linear-gradient(135deg, rgba(1,112,185,0.08) 0%, rgba(3,169,244,0.08) 100%)",
+              borderBottom: "1px solid rgba(0,0,0,0.08)",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: 700,
+            },
+            "& .MuiDataGrid-row:nth-of-type(odd)": {
+              backgroundColor: "rgba(0,0,0,0.02)",
+            },
+            "& .MuiDataGrid-row:hover": {
+              backgroundColor: "rgba(1,112,185,0.06)",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "1px solid rgba(0,0,0,0.05)",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "1px solid rgba(0,0,0,0.08)",
+            },
+          }}
         />
-      )}
+      </Box>
 
-      {/* Delete Confirmation Dialog */}
-      <ConfirmDeleteDialog
-        open={deleteDialog.open}
-        onClose={cancelDelete}
-        onConfirm={confirmDelete}
-        title="Hapus Mesin?"
-        itemName={deleteDialog.machine?.device_name}
-        itemType="mesin"
-      />
+
 
       <Snackbar
         open={snackbar.open}
