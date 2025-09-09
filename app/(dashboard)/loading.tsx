@@ -30,7 +30,7 @@ export default function DashboardLoading() {
           size={80}
           thickness={4}
           sx={{
-            color: '#2e7d32',
+            color: '#0170B9',
             '& .MuiCircularProgress-circle': {
               strokeLinecap: 'round',
             },
@@ -49,7 +49,7 @@ export default function DashboardLoading() {
             justifyContent: 'center',
           }}
         >
-          <Dashboard sx={{ fontSize: 32, color: '#2e7d32' }} />
+          <Dashboard sx={{ fontSize: 32, color: '#0170B9' }} />
         </Box>
       </Box>
 
@@ -78,9 +78,9 @@ export default function DashboardLoading() {
             sx={{
               height: 4,
               borderRadius: 2,
-              backgroundColor: 'rgba(46, 125, 50, 0.1)',
+              backgroundColor: 'rgba(1, 112, 185, 0.1)',
               '& .MuiLinearProgress-bar': {
-                backgroundColor: '#2e7d32',
+                backgroundColor: '#0170B9',
                 borderRadius: 2,
               },
             }}
@@ -98,14 +98,14 @@ export default function DashboardLoading() {
         }}
       >
         <Box sx={{ textAlign: 'center' }}>
-          <Fingerprint sx={{ fontSize: 20, color: '#2e7d32', mb: 0.5 }} />
+          <Fingerprint sx={{ fontSize: 20, color: '#0170B9', mb: 0.5 }} />
           <Typography variant="caption" color="text.secondary">
             Mesin
           </Typography>
         </Box>
         
         <Box sx={{ textAlign: 'center' }}>
-          <Dashboard sx={{ fontSize: 20, color: '#2e7d32', mb: 0.5 }} />
+          <Dashboard sx={{ fontSize: 20, color: '#0170B9', mb: 0.5 }} />
           <Typography variant="caption" color="text.secondary">
             Data
           </Typography>

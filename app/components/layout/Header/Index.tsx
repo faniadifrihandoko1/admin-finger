@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
-  Typography,
   IconButton,
   Avatar,
   Menu,
@@ -17,7 +16,6 @@ import {
   AccountCircle,
   Logout,
   Settings,
-  ShoppingCart,
 } from '@mui/icons-material';
 
 interface HeaderProps {

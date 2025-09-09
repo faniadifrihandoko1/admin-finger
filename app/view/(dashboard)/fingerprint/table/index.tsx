@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FingerprintMachine } from "../utils/type";
 import { AddDialog } from "../modal/add-dialog";
 import { dataMachine } from "../utils/data";
+import { FingerprintMachineFormData } from "../schema/fingerprint-machine";
 import { Alert, Box, Button, Grow, InputAdornment, Snackbar, Stack, TextField } from "@mui/material";
 import { FilterList, Refresh, Search, Add } from "@mui/icons-material";
 
@@ -16,18 +17,6 @@ export const FingerprintTable = () => {
     const [openAdd, setOpenAdd] = useState(false);
     const [pageSize, setPageSize] = useState(5);
     const [editingMachine, setEditingMachine] = useState<FingerprintMachine | null>(null);
-    const [formData, setFormData] = useState<Partial<FingerprintMachine>>({
-      device_name: '',
-      device_type_name: '',
-      cloud_id: '',
-      sn: '',
-      user_id: 0,
-      webhook_url: '',
-      server_id: 0,
-      device_type_id: 0,
-      img: '',
-      url_: '',
-    });
     const [snackbar, setSnackbar] = useState({ 
       open: false, 
       message: '', 
@@ -53,69 +42,42 @@ export const FingerprintTable = () => {
     const paginatedMachines = filteredMachines.slice(startIndex, endIndex);
 
     function handleOpenDialog(machine?: FingerprintMachine) {
-      if (machine) {
-        setEditingMachine(machine);
-        setFormData({
-          device_name: machine.device_name,
-          device_type_name: machine.device_type_name,
-          cloud_id: machine.cloud_id,
-          sn: machine.sn,
-          user_id: machine.user_id,
-          webhook_url: machine.webhook_url,
-          server_id: machine.server_id,
-          device_type_id: machine.device_type_id,
-          img: machine.img,
-          url_: machine.url_,
-          created_at: machine.created_at,
-          last_activity: machine.last_activity,
-        });
-      } else {
-        setEditingMachine(null);
-        setFormData({
-          device_name: '',
-          device_type_name: '',
-          cloud_id: '',
-          sn: '',
-          user_id: 0,
-          webhook_url: '',
-          server_id: 0,
-          device_type_id: 0,
-          img: '',
-          url_: '',
-        });
-      }
+      setEditingMachine(machine || null);
       setOpenAdd(true);
     }
 
     function handleCloseDialog() {
       setOpenAdd(false);
       setEditingMachine(null);
-      setFormData({
-        device_name: '',
-        device_type_name: '',
-        cloud_id: '',
-        sn: '',
-        user_id: 0,
-        webhook_url: '',
-        server_id: 0,
-        device_type_id: 0,
-        img: '',
-        url_: '',
-      });
     }
 
-    function handleSave() {
+    function handleSave(data: FingerprintMachineFormData) {
       if (editingMachine) {
         setMachines(prev => prev.map(machine =>
           machine.cloud_id === editingMachine.cloud_id
-            ? { ...machine, ...formData, last_activity: new Date().toLocaleString() }
+            ? { 
+                ...machine, 
+                device_name: data.machineName,
+                cloud_id: data.cloudId,
+                sn: data.serialNumber,
+                webhook_url: data.webhookUrl || '',
+                last_activity: new Date().toLocaleString() 
+              }
             : machine
         ));
         setSnackbar({ open: true, message: 'Mesin berhasil diperbarui!', severity: 'success' });
       } else {
         const newMachine: FingerprintMachine = {
-          ...formData as FingerprintMachine,
-          cloud_id: `C${Date.now().toString(16).toUpperCase()}`,
+          cloud_id: data.cloudId,
+          sn: data.serialNumber,
+          device_name: data.machineName,
+          device_type_name: 'Fingerprint Device',
+          user_id: Math.floor(Math.random() * 1000),
+          webhook_url: '', // Default empty for new machines
+          server_id: 1,
+          device_type_id: 1,
+          img: '',
+          url_: '',
           created_at: new Date().toLocaleString(),
           last_activity: new Date().toLocaleString(),
         };
@@ -217,7 +179,7 @@ export const FingerprintTable = () => {
               >
                 Refresh
               </Button>
-              {/* <Button
+              <Button
                 variant="contained"
                 startIcon={<Add />}
                 onClick={() => handleOpenDialog()}
@@ -233,7 +195,7 @@ export const FingerprintTable = () => {
                 }}
               >
                 Tambah Mesin
-              </Button> */}
+              </Button>
             </Stack>
           </Box>
         </Grow>
@@ -258,8 +220,6 @@ export const FingerprintTable = () => {
             openDialog={openAdd} 
             handleCloseDialog={handleCloseDialog} 
             editingMachine={editingMachine} 
-            formData={formData} 
-            setFormData={setFormData} 
             handleSave={handleSave} 
           />
         )}

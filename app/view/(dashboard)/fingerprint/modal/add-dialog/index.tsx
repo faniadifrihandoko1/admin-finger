@@ -1,18 +1,44 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
+import { fingerprintMachineSchema, FingerprintMachineFormData } from "../../schema/fingerprint-machine";
 import { FingerprintMachine } from "../../utils/type";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 
 interface AddDialogProps {
   openDialog: boolean;
   handleCloseDialog: () => void;
   editingMachine: FingerprintMachine | null;
-  formData: Partial<FingerprintMachine>;
-  setFormData: (data: Partial<FingerprintMachine>) => void;
-  handleSave: () => void;
+  handleSave: (data: FingerprintMachineFormData) => void;
 }
 
 
-export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formData, setFormData, handleSave }: AddDialogProps) => {
-  
+export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, handleSave }: AddDialogProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FingerprintMachineFormData>({
+    resolver: zodResolver(fingerprintMachineSchema),
+    defaultValues: {
+      cloudId: editingMachine?.cloud_id || '',
+      serialNumber: editingMachine?.sn || '',
+      machineName: editingMachine?.device_name || '',
+      webhookUrl: editingMachine?.webhook_url || '',
+    },
+  });
+
+  const onSubmit = (data: FingerprintMachineFormData) => {
+    handleSave(data);
+    reset();
+  };
+
+  const handleClose = () => {
+    reset();
+    handleCloseDialog();
+  };
+
   return (
     <Dialog
         open={openDialog}
@@ -33,90 +59,90 @@ export const AddDialog = ({ openDialog, handleCloseDialog, editingMachine, formD
           </Typography>
         </DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Device Name"
-            fullWidth
-            variant="outlined"
-            value={formData.device_name}
-            onChange={(e) => setFormData({ ...formData, device_name: e.target.value })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="Device Type Name"
-            fullWidth
-            variant="outlined"
-            value={formData.device_type_name}
-            onChange={(e) => setFormData({ ...formData, device_type_name: e.target.value })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="Cloud ID"
-            fullWidth
-            variant="outlined"
-            value={formData.cloud_id}
-            onChange={(e) => setFormData({ ...formData, cloud_id: e.target.value })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="Serial Number"
-            fullWidth
-            variant="outlined"
-            value={formData.sn}
-            onChange={(e) => setFormData({ ...formData, sn: e.target.value })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="User ID"
-            fullWidth
-            variant="outlined"
-            type="number"
-            value={formData.user_id}
-            onChange={(e) => setFormData({ ...formData, user_id: parseInt(e.target.value) || 0 })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="Webhook URL"
-            fullWidth
-            variant="outlined"
-            value={formData.webhook_url}
-            onChange={(e) => setFormData({ ...formData, webhook_url: e.target.value })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          />
-          {/* <TextField
-            margin="dense"
-            label="Server ID"
-            fullWidth
-            variant="outlined"
-            type="number"
-            value={formData.server_id}
-            onChange={(e) => setFormData({ ...formData, server_id: parseInt(e.target.value) || 0 })}
-            sx={{ mb: 2, borderRadius: 2 }}
-          /> */}
-          {/* <TextField
-            margin="dense"
-            label="Device Type ID"
-            fullWidth
-            variant="outlined"
-            type="number"
-            value={formData.device_type_id}
-            onChange={(e) => setFormData({ ...formData, device_type_id: parseInt(e.target.value) || 0 })}
-            sx={{ borderRadius: 2 }}
-          /> */}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="cloudId"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  autoFocus
+                  margin="dense"
+                  label="Cloud ID"
+                  fullWidth
+                  required
+                  variant="outlined"
+                  placeholder="Isikan Cloud ID Mesin Absensi"
+                  error={!!errors.cloudId}
+                  helperText={errors.cloudId?.message}
+                  sx={{ mb: 2, borderRadius: 2 }}
+                />
+              )}
+            />
+            <Controller
+              name="serialNumber"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  margin="dense"
+                  label="Nomor Seri"
+                  fullWidth
+                  required
+                  variant="outlined"
+                  placeholder="Isikan Nomor Seri Mesin Absensi"
+                  error={!!errors.serialNumber}
+                  helperText={errors.serialNumber?.message}
+                  sx={{ mb: 2, borderRadius: 2 }}
+                />
+              )}
+            />
+            <Controller
+              name="machineName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  margin="dense"
+                  label="Nama Mesin Absensi"
+                  fullWidth
+                  required
+                  variant="outlined"
+                  placeholder="Isi nama mesin absensi"
+                  error={!!errors.machineName}
+                  helperText={errors.machineName?.message}
+                  sx={{ mb: 2, borderRadius: 2 }}
+                />
+              )}
+            />
+            {editingMachine && (
+              <Controller
+                name="webhookUrl"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    margin="dense"
+                    label="Webhook URL"
+                    fullWidth
+                    variant="outlined"
+                    placeholder="https://example.com/webhook (opsional)"
+                    error={!!errors.webhookUrl}
+                    helperText={errors.webhookUrl?.message || 'URL untuk menerima notifikasi dari mesin (opsional)'}
+                    sx={{ mb: 2, borderRadius: 2 }}
+                  />
+                )}
+              />
+            )}
+          </form>
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
-          <Button onClick={handleCloseDialog} sx={{ borderRadius: 2 }}>
+          <Button onClick={handleClose} sx={{ borderRadius: 2 }}>
             Cancel
           </Button>
           <Button
             variant="contained"
-            onClick={handleSave}
+            onClick={handleSubmit(onSubmit)}
             sx={{
               borderRadius: 2,
               background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
