@@ -1,0 +1,65 @@
+{
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.format.enable": true,
+  "eslint.codeActionsOnSave.mode": "all",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "eslint.run": "onType",
+  "eslint.workingDirectories": ["."],
+  "eslint.useFlatConfig": true,
+  "eslint.problems.shortenToSingleLine": false,
+  "eslint.problems.showSource": true,
+  "eslint.lintTask.enable": true,
+  "eslint.debug": false,
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "editor.rulers": [80, 120],
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "problems.decorations.enabled": true,
+  "editor.renderValidationDecorations": "on",
+  "editor.showUnused": true,
+  "editor.showDeprecated": true,
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.validate.enable": true,
+  "javascript.validate.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.notifications.enable": true,
+  "workbench.colorCustomizations": {
+    "editorError.foreground": "#ff6b6b",
+    "editorError.border": "#ff6b6b",
+    "editorWarning.foreground": "#ffa726",
+    "editorWarning.border": "#ffa726",
+    "editorInfo.foreground": "#42a5f5",
+    "editorInfo.border": "#42a5f5"
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "markup.error",
+        "settings": {
+          "foreground": "#ff6b6b"
+        }
+      },
+      {
+        "scope": "markup.warning",
+        "settings": {
+          "foreground": "#ffa726"
+        }
+      }
+    ]
+  }
+}

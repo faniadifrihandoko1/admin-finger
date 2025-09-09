@@ -1,0 +1,26 @@
+{
+  "workbench.colorCustomizations": {
+    "editorError.foreground": "#ff6b6b",
+    "editorError.border": "#ff6b6b",
+    "editorWarning.foreground": "#ffa726",
+    "editorWarning.border": "#ffa726",
+    "editorInfo.foreground": "#42a5f5",
+    "editorInfo.border": "#42a5f5"
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "markup.error",
+        "settings": {
+          "foreground": "#ff6b6b"
+        }
+      },
+      {
+        "scope": "markup.warning",
+        "settings": {
+          "foreground": "#ffa726"
+        }
+      }
+    ]
+  }
+}

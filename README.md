@@ -5,12 +5,14 @@ Sistem manajemen fingerprint untuk admin yang dibangun dengan Next.js dan Materi
 ## Fitur
 
 ### 🔐 Halaman Login
+
 - Desain modern dengan Material UI
 - Form login dengan validasi
 - Animasi loading saat proses login
 - Demo credentials: `admin` / `admin123`
 
 ### 📊 Dashboard Admin
+
 - **Statistik Overview**: Menampilkan jumlah user yang terdaftar, pending, dan belum terdaftar
 - **User Management**: Tabel lengkap dengan data user
 - **Search & Filter**: Pencarian dan filter user berdasarkan nama, email, atau departemen
@@ -19,6 +21,7 @@ Sistem manajemen fingerprint untuk admin yang dibangun dengan Next.js dan Materi
 - **Sidebar Navigation**: Menu navigasi yang mudah digunakan
 
 ### 🛡️ Authentication & Security
+
 - Protected routes dengan komponen `ProtectedRoute`
 - Session management menggunakan localStorage
 - Auto-redirect berdasarkan status authentication
@@ -48,11 +51,13 @@ finger-app/
 ## Cara Menjalankan
 
 1. **Install dependencies**:
+
    ```bash
    npm install
    ```
 
 2. **Jalankan development server**:
+
    ```bash
    npm run dev
    ```
@@ -72,12 +77,14 @@ finger-app/
 ## Fitur Dashboard
 
 ### Statistik Cards
+
 - **Registered**: Jumlah user dengan fingerprint terdaftar
 - **Pending**: Jumlah user dengan status pending
 - **Not Registered**: Jumlah user yang belum terdaftar
 - **Total Users**: Total semua user
 
 ### User Management Table
+
 - **Nama**: Nama lengkap user dengan avatar
 - **Email**: Alamat email user
 - **Department**: Departemen user
@@ -86,6 +93,7 @@ finger-app/
 - **Actions**: Menu untuk aksi tambahan
 
 ### Search & Filter
+
 - **Search**: Pencarian berdasarkan nama, email, atau departemen
 - **Filter**: Filter data (dapat dikembangkan lebih lanjut)
 - **Add User**: Tombol untuk menambah user baru
@@ -93,33 +101,38 @@ finger-app/
 ## Customization
 
 ### Theme
+
 Theme Material UI dapat disesuaikan di `app/layout.tsx`:
 
 ```typescript
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#667eea',  // Warna primary
+      main: "#667eea", // Warna primary
     },
     secondary: {
-      main: '#764ba2',  // Warna secondary
+      main: "#764ba2", // Warna secondary
     },
   },
 });
 ```
 
 ### Data Sample
+
 Data user sample dapat diubah di `app/dashboard/page.tsx` dalam fungsi `useEffect`.
 
 ## Development
 
 ### Menambah Fitur Baru
+
 1. Buat komponen baru di folder `app/components/`
 2. Tambahkan route baru di folder `app/`
 3. Update navigation di sidebar dashboard jika diperlukan
 
 ### Authentication
+
 Saat ini menggunakan localStorage untuk demo. Untuk production, ganti dengan:
+
 - JWT tokens
 - Session management
 - API authentication

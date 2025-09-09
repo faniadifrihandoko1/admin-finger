@@ -1,22 +1,21 @@
-'use client';
+"use client";
 
-import React from 'react';
 import {
   Box,
-  Paper,
+  Chip,
+  MenuItem,
+  Pagination,
+  Select,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Chip,
-  Typography,
-  Stack,
-  Pagination,
-  Select,
-  MenuItem,
-} from '@mui/material';
+  Typography
+} from "@mui/material";
+import React from "react";
 
 export interface GridColumnDef {
   field: string;
@@ -29,9 +28,9 @@ export interface GridColumnDef {
   filterable?: boolean;
   renderCell?: (params: any) => React.ReactNode;
   renderHeader?: (params: any) => React.ReactNode;
-  align?: 'left' | 'center' | 'right';
-  headerAlign?: 'left' | 'center' | 'right';
-  type?: 'string' | 'number' | 'date' | 'boolean' | 'custom';
+  align?: "left" | "center" | "right";
+  headerAlign?: "left" | "center" | "right";
+  type?: "string" | "number" | "date" | "boolean" | "custom";
   valueGetter?: (params: any) => any;
   valueFormatter?: (value: any) => string;
 }
@@ -62,24 +61,24 @@ export interface CustomTableProps {
 const defaultCellRenderers = {
   string: (value: any) => (
     <Typography variant="body2" noWrap>
-      {value || '-'}
+      {value || "-"}
     </Typography>
   ),
   number: (value: any) => (
     <Typography variant="body2" noWrap>
-      {value?.toLocaleString() || '0'}
+      {value?.toLocaleString() || "0"}
     </Typography>
   ),
   date: (value: any) => (
     <Typography variant="body2" noWrap>
-      {value ? new Date(value).toLocaleDateString() : '-'}
+      {value ? new Date(value).toLocaleDateString() : "-"}
     </Typography>
   ),
   boolean: (value: any) => (
     <Chip
-      label={value ? 'Yes' : 'No'}
+      label={value ? "Yes" : "No"}
       size="small"
-      color={value ? 'success' : 'default'}
+      color={value ? "success" : "default"}
       variant="outlined"
     />
   ),
@@ -104,19 +103,22 @@ export default function CustomTable({
   onPageSizeChange,
   onRowClick,
   onRowDoubleClick,
-  getRowId = (row) => row.id,
+  getRowId = row => row.id,
   rowHeight = 52,
   headerHeight = 56,
-  showCheckbox = false,
-  selectedRows = [],
-  onSelectionChange,
+
   sx = {},
-  className = '',
+  className = "",
 }: CustomTableProps) {
-  const totalPages = totalRows ? Math.ceil(totalRows / pageSize) : Math.ceil(rows.length / pageSize);
+  const totalPages = totalRows
+    ? Math.ceil(totalRows / pageSize)
+    : Math.ceil(rows.length / pageSize);
   const actualTotalRows = totalRows || rows.length;
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
     if (onPageChange) {
       onPageChange(newPage - 1); // Convert to 0-based
     }
@@ -129,15 +131,24 @@ export default function CustomTable({
   };
 
   const renderCell = (column: GridColumnDef, row: any, rowIndex: number) => {
-    const value = column.valueGetter ? column.valueGetter({ row, value: row[column.field] }) : row[column.field];
-    const formattedValue = column.valueFormatter ? column.valueFormatter(value) : value;
+    const value = column.valueGetter
+      ? column.valueGetter({ row, value: row[column.field] })
+      : row[column.field];
+    const formattedValue = column.valueFormatter
+      ? column.valueFormatter(value)
+      : value;
 
     if (column.renderCell) {
       return column.renderCell({ row, value, formattedValue, rowIndex });
     }
 
-    if (column.type && defaultCellRenderers[column.type as keyof typeof defaultCellRenderers]) {
-      return defaultCellRenderers[column.type as keyof typeof defaultCellRenderers](formattedValue);
+    if (
+      column.type &&
+      defaultCellRenderers[column.type as keyof typeof defaultCellRenderers]
+    ) {
+      return defaultCellRenderers[
+        column.type as keyof typeof defaultCellRenderers
+      ](formattedValue);
     }
 
     return defaultCellRenderers.string(formattedValue);
@@ -153,7 +164,7 @@ export default function CustomTable({
   const getColumnWidth = (column: GridColumnDef) => {
     if (column.width) return column.width;
     if (column.flex) return `${column.flex}fr`;
-    return 'auto';
+    return "auto";
   };
 
   const getColumnStyle = (column: GridColumnDef) => {
@@ -161,7 +172,7 @@ export default function CustomTable({
       minWidth: column.minWidth || 100,
       maxWidth: column.maxWidth,
       width: getColumnWidth(column),
-      textAlign: column.align || 'left',
+      textAlign: column.align || "left",
     };
 
     if (column.flex) {
@@ -175,9 +186,9 @@ export default function CustomTable({
     <Box
       sx={{
         borderRadius: 3,
-        overflow: 'hidden',
-        border: '2px solid rgba(0,0,0,0.1)',
-       
+        overflow: "hidden",
+        border: "2px solid rgba(0,0,0,0.1)",
+
         ...sx,
       }}
       className={className}
@@ -185,16 +196,16 @@ export default function CustomTable({
       <TableContainer>
         <Table stickyHeader>
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'rgba(0,0,0,0.02)' }}>
-              {columns.map((column) => (
+            <TableRow sx={{ backgroundColor: "rgba(0,0,0,0.02)" }}>
+              {columns.map(column => (
                 <TableCell
                   key={column.field}
                   sx={{
                     height: headerHeight,
                     fontWeight: 600,
-                    textAlign: column.headerAlign || column.align || 'left',
+                    textAlign: column.headerAlign || column.align || "left",
                     ...getColumnStyle(column),
-                    borderBottom: '1px solid rgba(0,0,0,0.1)',
+                    borderBottom: "1px solid rgba(0,0,0,0.1)",
                   }}
                 >
                   {renderHeader(column)}
@@ -205,7 +216,10 @@ export default function CustomTable({
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={columns.length} sx={{ textAlign: 'center', py: 4 }}>
+                <TableCell
+                  colSpan={columns.length}
+                  sx={{ textAlign: "center", py: 4 }}
+                >
                   <Typography variant="body2" color="text.secondary">
                     Loading...
                   </Typography>
@@ -213,7 +227,10 @@ export default function CustomTable({
               </TableRow>
             ) : rows.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length} sx={{ textAlign: 'center', py: 4 }}>
+                <TableCell
+                  colSpan={columns.length}
+                  sx={{ textAlign: "center", py: 4 }}
+                >
                   <Typography variant="body2" color="text.secondary">
                     No data available
                   </Typography>
@@ -228,23 +245,23 @@ export default function CustomTable({
                   onDoubleClick={() => onRowDoubleClick?.(row)}
                   sx={{
                     height: rowHeight,
-                    cursor: onRowClick ? 'pointer' : 'default',
-                    '&:hover': {
-                      backgroundColor: 'rgba(46, 125, 50, 0.04)',
+                    cursor: onRowClick ? "pointer" : "default",
+                    "&:hover": {
+                      backgroundColor: "rgba(46, 125, 50, 0.04)",
                     },
-                    '&:last-child td': {
+                    "&:last-child td": {
                       borderBottom: 0,
                     },
                   }}
                 >
-                  {columns.map((column) => (
+                  {columns.map(column => (
                     <TableCell
                       key={column.field}
                       sx={{
                         height: rowHeight,
-                        textAlign: column.align || 'left',
+                        textAlign: column.align || "left",
                         ...getColumnStyle(column),
-                        borderBottom: '1px solid rgba(0,0,0,0.05)',
+                        borderBottom: "1px solid rgba(0,0,0,0.05)",
                       }}
                     >
                       {renderCell(column, row, rowIndex)}
@@ -258,10 +275,16 @@ export default function CustomTable({
       </TableContainer>
 
       {pagination && rows.length > 0 && (
-        <Box sx={{ p: 2, borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Box sx={{ p: 2, borderTop: "1px solid rgba(0,0,0,0.05)" }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Typography variant="body2" color="text.secondary">
-              Menampilkan {page * pageSize + 1} - {Math.min((page + 1) * pageSize, actualTotalRows)} dari {actualTotalRows} data
+              Menampilkan {page * pageSize + 1} -{" "}
+              {Math.min((page + 1) * pageSize, actualTotalRows)} dari{" "}
+              {actualTotalRows} data
             </Typography>
             <Stack direction="row" alignItems="center" spacing={2}>
               <Typography variant="body2" color="text.secondary">
@@ -271,23 +294,23 @@ export default function CustomTable({
                 value={pageSize}
                 onChange={handlePageSizeChange}
                 size="small"
-                sx={{ 
+                sx={{
                   minWidth: 60,
                   width: 60,
                   height: 32,
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#0170B9',
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#0170B9",
                   },
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#01579B',
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#01579B",
                   },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#0170B9',
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#0170B9",
                     borderWidth: 2,
                   },
-                  '& .MuiSelect-select': {
-                    padding: '4px 8px',
-                    fontSize: '0.875rem',
+                  "& .MuiSelect-select": {
+                    padding: "4px 8px",
+                    fontSize: "0.875rem",
                   },
                 }}
               >
@@ -305,17 +328,17 @@ export default function CustomTable({
                 showFirstButton
                 showLastButton
                 sx={{
-                  '& .MuiPaginationItem-root': {
+                  "& .MuiPaginationItem-root": {
                     borderRadius: 2,
-                    '&.Mui-selected': {
-                      backgroundColor: '#0170B9',
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: '#01579B',
+                    "&.Mui-selected": {
+                      backgroundColor: "#0170B9",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#01579B",
                       },
                     },
-                    '&:hover': {
-                      backgroundColor: 'rgba(1, 112, 185, 0.1)',
+                    "&:hover": {
+                      backgroundColor: "rgba(1, 112, 185, 0.1)",
                     },
                   },
                 }}

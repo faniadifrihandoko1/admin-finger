@@ -1,33 +1,29 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
 import {
+  AccessTime,
+  Cancel,
+  CheckCircle,
+  Fingerprint,
+  People,
+  Refresh,
+  TrendingDown,
+  TrendingUp,
+  Warning,
+} from "@mui/icons-material";
+import {
+  Avatar,
   Box,
+  Button,
   Card,
   CardContent,
-  Typography,
-  Grid,
-  Paper,
-  Avatar,
-  LinearProgress,
-  Chip,
-  Button,
-  IconButton,
   Fade,
   Grow,
-} from '@mui/material';
-import {
-  CheckCircle,
-  Warning,
-  Cancel,
-  People,
-  Fingerprint,
-  TrendingUp,
-  TrendingDown,
-  AccessTime,
-  Refresh,
-  Add,
-} from '@mui/icons-material';
+  LinearProgress,
+  Paper,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
 
 interface DashboardStats {
   totalUsers: number;
@@ -44,11 +40,11 @@ interface RecentActivity {
   user: string;
   action: string;
   time: string;
-  status: 'success' | 'warning' | 'error';
+  status: "success" | "warning" | "error";
 }
 
 export const DashboardView = () => {
-  const [stats, setStats] = useState<DashboardStats>({
+  const [stats, _] = useState<DashboardStats>({
     totalUsers: 156,
     registeredUsers: 142,
     pendingUsers: 8,
@@ -59,62 +55,109 @@ export const DashboardView = () => {
   });
 
   const [recentActivities] = useState<RecentActivity[]>([
-    { id: '1', user: 'John Doe', action: 'Fingerprint registered', time: '2 minutes ago', status: 'success' },
-    { id: '2', user: 'Jane Smith', action: 'Failed login attempt', time: '5 minutes ago', status: 'warning' },
-    { id: '3', user: 'Mike Johnson', action: 'Machine offline', time: '10 minutes ago', status: 'error' },
-    { id: '4', user: 'Sarah Wilson', action: 'New user added', time: '15 minutes ago', status: 'success' },
-    { id: '5', user: 'David Brown', action: 'Fingerprint updated', time: '20 minutes ago', status: 'success' },
+    {
+      id: "1",
+      user: "John Doe",
+      action: "Fingerprint registered",
+      time: "2 minutes ago",
+      status: "success",
+    },
+    {
+      id: "2",
+      user: "Jane Smith",
+      action: "Failed login attempt",
+      time: "5 minutes ago",
+      status: "warning",
+    },
+    {
+      id: "3",
+      user: "Mike Johnson",
+      action: "Machine offline",
+      time: "10 minutes ago",
+      status: "error",
+    },
+    {
+      id: "4",
+      user: "Sarah Wilson",
+      action: "New user added",
+      time: "15 minutes ago",
+      status: "success",
+    },
+    {
+      id: "5",
+      user: "David Brown",
+      action: "Fingerprint updated",
+      time: "20 minutes ago",
+      status: "success",
+    },
   ]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'success':
-        return 'success';
-      case 'warning':
-        return 'warning';
-      case 'error':
-        return 'error';
+      case "success":
+        return "success";
+      case "warning":
+        return "warning";
+      case "error":
+        return "error";
       default:
-        return 'default';
+        return "default";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'success':
+      case "success":
         return <CheckCircle />;
-      case 'warning':
+      case "warning":
         return <Warning />;
-      case 'error':
+      case "error":
         return <Cancel />;
       default:
         return null;
     }
   };
 
-  const StatCard = ({ title, value, total, icon: Icon, color, trend, trendUp, index }: any) => {
+  const StatCard = ({
+    title,
+    value,
+    total,
+    icon: Icon,
+    color,
+    trend,
+    trendUp,
+    index,
+  }: any) => {
     const percentage = total > 0 ? (value / total) * 100 : 0;
 
     return (
       <Grow in timeout={300 + index * 100}>
         <Card
           sx={{
-            height: '100%',
+            height: "100%",
             borderRadius: 3,
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255,255,255,0.2)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-            transition: 'all 0.3s ease',
-            '&:hover': {
-              transform: 'translateY(-4px)',
-              boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              transform: "translateY(-4px)",
+              boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
             },
           }}
         >
           <CardContent sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mb: 2,
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Avatar
                   sx={{
                     backgroundColor: `${color}.main`,
@@ -126,24 +169,37 @@ export const DashboardView = () => {
                   {Icon && <Icon />}
                 </Avatar>
                 <Box>
-                  <Typography color="textSecondary" gutterBottom variant="body2" fontWeight={500}>
+                  <Typography
+                    color="textSecondary"
+                    gutterBottom
+                    variant="body2"
+                    fontWeight={500}
+                  >
                     {title}
                   </Typography>
-                  <Typography variant="h4" fontWeight="bold" color="text.primary">
+                  <Typography
+                    variant="h4"
+                    fontWeight="bold"
+                    color="text.primary"
+                  >
                     {value}
                   </Typography>
                 </Box>
               </Box>
-              <Box sx={{ textAlign: 'right' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <Box sx={{ textAlign: "right" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                   {trendUp ? (
-                    <TrendingUp sx={{ fontSize: 16, color: 'success.main', mr: 0.5 }} />
+                    <TrendingUp
+                      sx={{ fontSize: 16, color: "success.main", mr: 0.5 }}
+                    />
                   ) : (
-                    <TrendingDown sx={{ fontSize: 16, color: 'error.main', mr: 0.5 }} />
+                    <TrendingDown
+                      sx={{ fontSize: 16, color: "error.main", mr: 0.5 }}
+                    />
                   )}
                   <Typography
                     variant="body2"
-                    color={trendUp ? 'success.main' : 'error.main'}
+                    color={trendUp ? "success.main" : "error.main"}
                     fontWeight={600}
                   >
                     {trend}
@@ -155,7 +211,9 @@ export const DashboardView = () => {
               </Box>
             </Box>
             <Box sx={{ mt: 2 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+              <Box
+                sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+              >
                 <Typography variant="caption" color="text.secondary">
                   Progress
                 </Typography>
@@ -169,8 +227,8 @@ export const DashboardView = () => {
                 sx={{
                   height: 6,
                   borderRadius: 3,
-                  backgroundColor: 'rgba(0,0,0,0.1)',
-                  '& .MuiLinearProgress-bar': {
+                  backgroundColor: "rgba(0,0,0,0.1)",
+                  "& .MuiLinearProgress-bar": {
                     backgroundColor: `${color}.main`,
                     borderRadius: 3,
                   },
@@ -185,39 +243,39 @@ export const DashboardView = () => {
 
   const statsData = [
     {
-      title: 'Total Users',
+      title: "Total Users",
       value: stats.totalUsers,
       total: stats.totalUsers,
       icon: People,
-      color: 'primary',
-      trend: '+12%',
+      color: "primary",
+      trend: "+12%",
       trendUp: true,
     },
     {
-      title: 'Registered',
+      title: "Registered",
       value: stats.registeredUsers,
       total: stats.totalUsers,
       icon: CheckCircle,
-      color: 'success',
-      trend: '+8%',
+      color: "success",
+      trend: "+8%",
       trendUp: true,
     },
     {
-      title: 'Pending',
+      title: "Pending",
       value: stats.pendingUsers,
       total: stats.totalUsers,
       icon: Warning,
-      color: 'warning',
-      trend: '-3%',
+      color: "warning",
+      trend: "-3%",
       trendUp: false,
     },
     {
-      title: 'Fingerprint Machines',
+      title: "Fingerprint Machines",
       value: stats.totalMachines,
       total: stats.totalMachines,
       icon: Fingerprint,
-      color: 'info',
-      trend: '+5%',
+      color: "info",
+      trend: "+5%",
       trendUp: true,
     },
   ];
@@ -226,7 +284,14 @@ export const DashboardView = () => {
     <Box sx={{ p: 3 }}>
       {/* Welcome Section */}
       <Fade in timeout={500}>
-        <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box
+          sx={{
+            mb: 4,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Box>
             <Typography fontSize={22} fontWeight="bold" gutterBottom>
               Dashboard Overview 📊
@@ -240,13 +305,15 @@ export const DashboardView = () => {
             startIcon={<Refresh />}
             sx={{
               borderRadius: 2,
-              background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #01579B 0%, #0170B9 50%, #0288D1 100%)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 12px rgba(1, 112, 185, 0.4)',
+              background:
+                "linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)",
+              "&:hover": {
+                background:
+                  "linear-gradient(135deg, #01579B 0%, #0170B9 50%, #0288D1 100%)",
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 12px rgba(1, 112, 185, 0.4)",
               },
-              transition: 'all 0.3s ease',
+              transition: "all 0.3s ease",
             }}
           >
             Refresh Data
@@ -255,34 +322,59 @@ export const DashboardView = () => {
       </Fade>
 
       {/* Stats Cards */}
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }, gap: 3, mb: 4 }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(4, 1fr)",
+          },
+          gap: 3,
+          mb: 4,
+        }}
+      >
         {statsData.map((stat, index) => (
           <StatCard key={stat.title} stat={stat} index={index} />
         ))}
       </Box>
 
       {/* Machine Status & Recent Activity */}
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 3 }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+          gap: 3,
+        }}
+      >
         {/* Machine Status */}
         <Grow in timeout={800}>
           <Paper
             sx={{
               borderRadius: 3,
-              overflow: 'hidden',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+              overflow: "hidden",
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
             }}
           >
-            <Box sx={{ p: 3, borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+            <Box sx={{ p: 3, borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
               <Typography variant="h6" fontWeight="bold">
                 Status Mesin Fingerprint
               </Typography>
             </Box>
             <Box sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <CheckCircle color="success" sx={{ mr: 1 }} />
                   <Typography variant="body2">Active Machines</Typography>
                 </Box>
@@ -290,8 +382,15 @@ export const DashboardView = () => {
                   {stats.activeMachines}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Cancel color="error" sx={{ mr: 1 }} />
                   <Typography variant="body2">Offline Machines</Typography>
                 </Box>
@@ -299,8 +398,14 @@ export const DashboardView = () => {
                   {stats.offlineMachines}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Fingerprint color="primary" sx={{ mr: 1 }} />
                   <Typography variant="body2">Total Machines</Typography>
                 </Box>
@@ -317,33 +422,34 @@ export const DashboardView = () => {
           <Paper
             sx={{
               borderRadius: 3,
-              overflow: 'hidden',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+              overflow: "hidden",
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
             }}
           >
-            <Box sx={{ p: 3, borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+            <Box sx={{ p: 3, borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
               <Typography variant="h6" fontWeight="bold">
                 Aktivitas Terbaru
               </Typography>
             </Box>
             <Box sx={{ p: 2 }}>
-              {recentActivities.map((activity, index) => (
+              {recentActivities.map((activity) => (
                 <Box
                   key={activity.id}
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                     p: 2,
                     mb: 1,
                     borderRadius: 2,
-                    backgroundColor: 'rgba(0,0,0,0.02)',
-                    '&:hover': {
-                      backgroundColor: 'rgba(1, 112, 185, 0.04)',
+                    backgroundColor: "rgba(0,0,0,0.02)",
+                    "&:hover": {
+                      backgroundColor: "rgba(1, 112, 185, 0.04)",
                     },
-                    transition: 'all 0.2s ease',
+                    transition: "all 0.2s ease",
                   }}
                 >
                   <Avatar
@@ -364,8 +470,10 @@ export const DashboardView = () => {
                       {activity.action}
                     </Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <AccessTime sx={{ fontSize: 14, mr: 0.5, color: 'text.secondary' }} />
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <AccessTime
+                      sx={{ fontSize: 14, mr: 0.5, color: "text.secondary" }}
+                    />
                     <Typography variant="caption" color="text.secondary">
                       {activity.time}
                     </Typography>
@@ -378,4 +486,4 @@ export const DashboardView = () => {
       </Box>
     </Box>
   );
-}
+};

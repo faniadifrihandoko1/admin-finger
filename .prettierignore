@@ -1,0 +1,17 @@
+# Ignore minified files
+public/altius-chat-widget.min.js
+*.min.js
+*.min.css
+
+# Ignore build files
+.next/
+out/
+dist/
+build/
+
+# Ignore dependencies
+node_modules/
+
+# Ignore other files
+.git/
+.husky/ 

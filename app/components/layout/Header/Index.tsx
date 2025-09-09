@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -10,13 +10,13 @@ import {
   MenuItem,
   Box,
   Chip,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Menu as MenuIcon,
   AccountCircle,
   Logout,
   Settings,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
@@ -26,30 +26,31 @@ interface HeaderProps {
 export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) =>
+    setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
 
   return (
-    <AppBar 
-      position="fixed" 
-      sx={{ 
-        width: { sm: `calc(100% - 280px)` }, 
-        ml: { sm: '280px' }, 
-        backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-        backdropFilter: 'blur(20px)', 
-        borderBottom: '1px solid rgba(0, 0, 0, 0.05)', 
-        boxShadow: '0 2px 20px rgba(0, 0, 0, 0.08)', 
-        color: 'text.primary' 
+    <AppBar
+      position="fixed"
+      sx={{
+        width: { sm: `calc(100% - 280px)` },
+        ml: { sm: "280px" },
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        backdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
+        boxShadow: "0 2px 20px rgba(0, 0, 0, 0.08)",
+        color: "text.primary",
       }}
     >
-      <Toolbar sx={{ px: { xs: 2, sm: 3 }, justifyContent: 'space-between' }}>
+      <Toolbar sx={{ px: { xs: 2, sm: 3 }, justifyContent: "space-between" }}>
         {/* Mobile Menu Button */}
         <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
           onClick={onDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          sx={{ mr: 2, display: { sm: "none" } }}
         >
           <MenuIcon />
         </IconButton>
@@ -58,19 +59,19 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
         <Box sx={{ flexGrow: 1 }} />
 
         {/* Information Cards */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           {/* Expiry Date Card */}
           <Chip
             label="14 hari lagi jatuh tempo"
             sx={{
-              backgroundColor: 'rgba(1, 112, 185, 0.1)',
-              color: '#0170B9',
-              border: '1px solid rgba(1, 112, 185, 0.2)',
+              backgroundColor: "rgba(1, 112, 185, 0.1)",
+              color: "#0170B9",
+              border: "1px solid rgba(1, 112, 185, 0.2)",
               fontWeight: 500,
               px: 2,
               py: 1,
-              height: 'auto',
-              '& .MuiChip-label': {
+              height: "auto",
+              "& .MuiChip-label": {
                 px: 1,
               },
             }}
@@ -80,22 +81,18 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
           <Chip
             label="Saldo fingerspot.io : Rp 0"
             sx={{
-              backgroundColor: 'rgba(76, 175, 80, 0.1)',
-              color: '#4caf50',
-              border: '1px solid rgba(76, 175, 80, 0.2)',
+              backgroundColor: "rgba(76, 175, 80, 0.1)",
+              color: "#4caf50",
+              border: "1px solid rgba(76, 175, 80, 0.2)",
               fontWeight: 500,
               px: 2,
               py: 1,
-              height: 'auto',
-              '& .MuiChip-label': {
+              height: "auto",
+              "& .MuiChip-label": {
                 px: 1,
               },
             }}
           />
-
-         
-
-          
 
           {/* User Avatar */}
           <IconButton
@@ -110,9 +107,10 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
               sx={{
                 width: 40,
                 height: 40,
-                background: 'linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)',
-                border: '2px solid white',
-                boxShadow: '0 2px 8px rgba(1, 112, 185, 0.3)',
+                background:
+                  "linear-gradient(135deg, #0170B9 0%, #0288D1 50%, #03A9F4 100%)",
+                border: "2px solid white",
+                boxShadow: "0 2px 8px rgba(1, 112, 185, 0.3)",
               }}
             >
               A
@@ -124,13 +122,13 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
+              vertical: "bottom",
+              horizontal: "right",
             }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
@@ -138,8 +136,8 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
               sx: {
                 mt: 1,
                 borderRadius: 2,
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                border: '1px solid rgba(0, 0, 0, 0.05)',
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
+                border: "1px solid rgba(0, 0, 0, 0.05)",
                 minWidth: 200,
               },
             }}
@@ -152,7 +150,7 @@ export default function Header({ onDrawerToggle, onLogout }: HeaderProps) {
               <Settings sx={{ mr: 2 }} />
               Settings
             </MenuItem>
-            <MenuItem onClick={onLogout} sx={{ color: 'error.main' }}>
+            <MenuItem onClick={onLogout} sx={{ color: "error.main" }}>
               <Logout sx={{ mr: 2 }} />
               Logout
             </MenuItem>
