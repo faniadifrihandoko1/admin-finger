@@ -101,7 +101,6 @@ export const LoginView = () => {
             linear-gradient(-45deg, transparent 30%, rgba(1, 112, 185, 0.015) 30%, rgba(1, 112, 185, 0.015) 70%, transparent 70%)
           `,
           backgroundSize: "60px 60px",
-          animation: "float 20s ease-in-out infinite",
         },
         "&::after": {
           content: '""',
@@ -114,15 +113,6 @@ export const LoginView = () => {
             "linear-gradient(135deg, rgba(1, 112, 185, 0.08) 0%, rgba(1, 112, 185, 0.04) 100%)",
           borderRadius: "50%",
           filter: "blur(40px)",
-          animation: "pulse 8s ease-in-out infinite",
-        },
-        "@keyframes float": {
-          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
-          "50%": { transform: "translateY(-20px) rotate(180deg)" },
-        },
-        "@keyframes pulse": {
-          "0%, 100%": { transform: "scale(1) rotate(0deg)", opacity: 0.3 },
-          "50%": { transform: "scale(1.1) rotate(180deg)", opacity: 0.6 },
         },
       }}
     >
@@ -138,7 +128,6 @@ export const LoginView = () => {
             "linear-gradient(135deg, rgba(1, 112, 185, 0.08) 0%, rgba(1, 112, 185, 0.04) 100%)",
           borderRadius: "20px",
           transform: "rotate(45deg)",
-          animation: "float 12s ease-in-out infinite",
           filter: "blur(1px)",
         }}
       />
@@ -152,7 +141,6 @@ export const LoginView = () => {
           background:
             "linear-gradient(135deg, rgba(1, 112, 185, 0.06) 0%, rgba(1, 112, 185, 0.03) 100%)",
           borderRadius: "50%",
-          animation: "pulse 6s ease-in-out infinite",
         }}
       />
       <Box
@@ -166,7 +154,6 @@ export const LoginView = () => {
             "linear-gradient(135deg, rgba(1, 112, 185, 0.08) 0%, rgba(1, 112, 185, 0.04) 100%)",
           borderRadius: "8px",
           transform: "rotate(30deg)",
-          animation: "float 10s ease-in-out infinite reverse",
         }}
       />
       <Box
@@ -180,7 +167,6 @@ export const LoginView = () => {
             "linear-gradient(135deg, rgba(1, 112, 185, 0.06) 0%, rgba(1, 112, 185, 0.02) 100%)",
           borderRadius: "30px",
           transform: "rotate(-30deg)",
-          animation: "pulse 7s ease-in-out infinite",
         }}
       />
       <Box
@@ -193,7 +179,6 @@ export const LoginView = () => {
           background:
             "linear-gradient(135deg, rgba(1, 112, 185, 0.08) 0%, rgba(1, 112, 185, 0.04) 100%)",
           borderRadius: "50%",
-          animation: "float 9s ease-in-out infinite",
         }}
       />
       <Container maxWidth="sm" sx={{ position: "relative", zIndex: 1 }}>
@@ -255,7 +240,6 @@ export const LoginView = () => {
                   fontSize: 56,
                   mb: 2,
                   filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))",
-                  animation: "pulse 3s ease-in-out infinite",
                 }}
               />
               <Typography
