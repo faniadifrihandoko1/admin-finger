@@ -1,14 +1,21 @@
+import { queryClient } from "@/app/components/MUIThemeProvider";
+import { useCreateMesin } from "@/hooks/mutation/use-mutation-finger";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
+import { AxiosError } from "axios";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   FingerprintMachineFormData,
   fingerprintMachineSchema,
@@ -23,8 +30,14 @@ interface AddDialogProps {
 export const AddDialog = ({
   openDialog,
   handleCloseDialog,
-  handleSave,
+  handleSave: _handleSave,
 }: AddDialogProps) => {
+  const {mutateAsync ,isPending} = useCreateMesin()
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+    message: "",
+    severity: "success" as "success" | "error",
+  });
   const {
     control,
     handleSubmit,
@@ -40,9 +53,23 @@ export const AddDialog = ({
     },
   });
 
-  const onSubmit = (data: FingerprintMachineFormData) => {
-    handleSave(data);
-    reset();
+  const onSubmit = async (data: FingerprintMachineFormData) => {
+    try {
+      await mutateAsync({
+        SN: data.SN,
+        ClientName: data.ClientName,
+        device_name: data.device_name,
+        webHookLink: data.webHookLink || "",
+      });
+      toast.info("Berhasil menambahkan mesin");
+      queryClient.invalidateQueries({ queryKey: ["LIST_DATA_MESIN_FINGER"] });
+      handleCloseDialog();
+      reset();
+    } catch (error) {
+      const axiosErr = error as AxiosError<{ message?: string }>;
+      const apiMessage = axiosErr.response?.data?.message || "Gagal menambahkan data";
+      toast.error(apiMessage);
+    }
   };
 
   const handleClose = () => {
@@ -166,10 +193,26 @@ export const AddDialog = ({
             },
             transition: "all 0.3s ease",
           }}
+          disabled={isPending}
         >
-          Tambah
+          {isPending ? "Menyimpan..." : "Tambah"}
         </Button>
       </DialogActions>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Dialog>
   );
 };

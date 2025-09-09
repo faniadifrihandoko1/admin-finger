@@ -5,6 +5,8 @@ import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
 import type { } from "@mui/x-data-grid/themeAugmentation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = createTheme({
   palette: {
@@ -148,6 +150,17 @@ export default function MUIThemeProvider({
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
+        <ToastContainer position="top-right"
+         autoClose={2000}
+         hideProgressBar={false}
+         newestOnTop={false}
+         closeOnClick={false}
+         rtl={false}
+         pauseOnFocusLoss
+         draggable
+         pauseOnHover
+         theme="colored"
+         transition={Bounce} />
       </ThemeProvider>
     </QueryClientProvider>
   );

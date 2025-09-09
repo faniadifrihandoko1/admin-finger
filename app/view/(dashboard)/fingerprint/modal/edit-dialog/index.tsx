@@ -16,6 +16,7 @@ import {
 import { AxiosError } from "axios";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   FingerprintMachineFormData,
   fingerprintMachineSchema,
@@ -61,14 +62,14 @@ export const EditDialog = ({
         device_name: data.device_name,
         webHookLink: data.webHookLink || "",
       });
-      setSnackbar({ open: true, message: "Berhasil memperbarui data mesin", severity: "success" });
+      toast.info("Berhasil memperbarui data mesin");
       queryClient.invalidateQueries({ queryKey: ["LIST_DATA_MESIN_FINGER"] });
       handleCloseDialog();
       reset();
     } catch (error) {
       const axiosErr = error as AxiosError<{ message?: string }>;
       const apiMessage = axiosErr.response?.data?.message || "Gagal memperbarui data";
-      setSnackbar({ open: true, message: apiMessage, severity: "error" });
+      toast.error(apiMessage);
     }
   };
 
