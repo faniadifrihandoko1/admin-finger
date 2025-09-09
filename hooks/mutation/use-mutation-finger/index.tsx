@@ -12,6 +12,10 @@ interface PayloadDataMesin {
     webHookLink: string,
 }
 
+interface PayloadDataMesinDelete {
+    SN: string,
+}
+
 interface ResponseUpdateMesin {
     response: 200| 400| 500,
     success: null,
@@ -54,5 +58,22 @@ export const useUpdateMesin = () =>
     });
 
 
+
+    export const useDeleteMesin = () =>
+    useMutation<
+    ResponseUpdateMesin,
+      AxiosError<ResponseUpdateMesin>,
+      PayloadDataMesin
+    >({
+      mutationFn: async data => {
+        const res = await axiosInterceptor.post<ResponseUpdateMesin>(
+          getApi("deleteMesin"),
+          data
+        );
+
+        return res.data;
+      },
+      mutationKey: ["DELETE_MESIN"],
+    });
 
 

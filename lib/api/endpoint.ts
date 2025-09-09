@@ -3,6 +3,7 @@ export const endpoints = {
   // mesin finger
   getListMesin: "getListDataMesinFinger",
   updateMesin: "setDataMesinFinger",
+  deleteMesin: "delDataMesinFinger",
 
 } as const;
 

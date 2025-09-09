@@ -228,7 +228,7 @@ export const FingerprintTable = () => {
           }}
           sx={{
             // borderRadius: 3,
-            border: "2px solid rgba(0,0,0,0.06)",
+            border: "2px solid rgba(0,0,0,0.10)",
             boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
             "& .MuiDataGrid-columnHeaders": {
               background:
