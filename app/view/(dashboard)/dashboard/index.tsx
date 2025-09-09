@@ -2,13 +2,12 @@
 
 import {
   AccessTime,
+  Block,
   Cancel,
   CheckCircle,
-  Fingerprint,
-  People,
+  Error,
   Refresh,
-  TrendingDown,
-  TrendingUp,
+  Schedule,
   Warning,
 } from "@mui/icons-material";
 import {
@@ -19,20 +18,25 @@ import {
   CardContent,
   Fade,
   Grow,
-  LinearProgress,
   Paper,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface DashboardStats {
-  totalUsers: number;
-  registeredUsers: number;
-  pendingUsers: number;
-  notRegisteredUsers: number;
   totalMachines: number;
   activeMachines: number;
-  offlineMachines: number;
+  nonActiveMachines: number;
+  expiredMachines: number;
+}
+
+interface ExpiredDetail {
+  id: string;
+  machineName: string;
+  location: string;
+  expiredDate: string;
+  daysExpired: number;
+  status: "critical" | "warning" | "info";
 }
 
 interface RecentActivity {
@@ -45,14 +49,54 @@ interface RecentActivity {
 
 export const DashboardView = () => {
   const [stats, _] = useState<DashboardStats>({
-    totalUsers: 156,
-    registeredUsers: 142,
-    pendingUsers: 8,
-    notRegisteredUsers: 6,
-    totalMachines: 12,
-    activeMachines: 10,
-    offlineMachines: 2,
+    totalMachines: 25,
+    activeMachines: 18,
+    nonActiveMachines: 4,
+    expiredMachines: 3,
   });
+
+  const [expiredDetails] = useState<ExpiredDetail[]>([
+    {
+      id: "1",
+      machineName: "Fingerprint Machine A1",
+      location: "Lobby Utama",
+      expiredDate: "2024-01-15",
+      daysExpired: 15,
+      status: "critical",
+    },
+    {
+      id: "2",
+      machineName: "Fingerprint Machine B2",
+      location: "Gedung Administrasi",
+      expiredDate: "2024-01-20",
+      daysExpired: 10,
+      status: "warning",
+    },
+    {
+      id: "3",
+      machineName: "Fingerprint Machine C3",
+      location: "Laboratorium",
+      expiredDate: "2024-01-25",
+      daysExpired: 5,
+      status: "info",
+    },
+    {
+      id: "4",
+      machineName: "Fingerprint Machine D4",
+      location: "Perpustakaan",
+      expiredDate: "2024-01-10",
+      daysExpired: 20,
+      status: "critical",
+    },
+    {
+      id: "5",
+      machineName: "Fingerprint Machine E5",
+      location: "Kantin",
+      expiredDate: "2024-01-28",
+      daysExpired: 2,
+      status: "info",
+    },
+  ]);
 
   const [recentActivities] = useState<RecentActivity[]>([
     {
@@ -118,122 +162,124 @@ export const DashboardView = () => {
     }
   };
 
+  const getExpiredStatusColor = (status: string) => {
+    switch (status) {
+      case "critical":
+        return "error";
+      case "warning":
+        return "warning";
+      case "info":
+        return "info";
+      default:
+        return "default";
+    }
+  };
+
+  const getExpiredStatusIcon = (status: string) => {
+    switch (status) {
+      case "critical":
+        return <Error />;
+      case "warning":
+        return <Warning />;
+      case "info":
+        return <Schedule />;
+      default:
+        return null;
+    }
+  };
+
   const StatCard = ({
     title,
     value,
     total,
     icon: Icon,
     color,
-    trend,
-    trendUp,
     index,
-  }: any) => {
-    const percentage = total > 0 ? (value / total) * 100 : 0;
-
+  }: {
+    title: string;
+    value: number;
+    total: number;
+    icon: React.ComponentType;
+    color: string;
+    index: number;
+  }) => {
     return (
       <Grow in timeout={300 + index * 100}>
         <Card
           sx={{
             height: "100%",
             borderRadius: 3,
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
+            background: "rgba(255, 255, 255, 0.95)",
             backdropFilter: "blur(10px)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+            border: `1px solid ${color === 'success' ? 'rgba(76, 175, 80, 0.2)' : color === 'warning' ? 'rgba(255, 152, 0, 0.2)' : 'rgba(244, 67, 54, 0.2)'}`,
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
             transition: "all 0.3s ease",
             "&:hover": {
               transform: "translateY(-4px)",
-              boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
+              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12)",
             },
           }}
         >
           <CardContent sx={{ p: 3 }}>
+            {/* Icon and Title */}
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between",
                 mb: 2,
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Avatar
-                  sx={{
-                    backgroundColor: `${color}.main`,
-                    width: 48,
-                    height: 48,
-                    mr: 2,
-                  }}
-                >
-                  {Icon && <Icon />}
-                </Avatar>
-                <Box>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                    fontWeight={500}
-                  >
-                    {title}
-                  </Typography>
-                  <Typography
-                    variant="h4"
-                    fontWeight="bold"
-                    color="text.primary"
-                  >
-                    {value}
-                  </Typography>
-                </Box>
+              <Box
+                sx={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 2,
+                  backgroundColor: `${color}.main`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mr: 2,
+                }}
+              >
+                {Icon && <Icon />}
               </Box>
-              <Box sx={{ textAlign: "right" }}>
-                <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                  {trendUp ? (
-                    <TrendingUp
-                      sx={{ fontSize: 16, color: "success.main", mr: 0.5 }}
-                    />
-                  ) : (
-                    <TrendingDown
-                      sx={{ fontSize: 16, color: "error.main", mr: 0.5 }}
-                    />
-                  )}
-                  <Typography
-                    variant="body2"
-                    color={trendUp ? "success.main" : "error.main"}
-                    fontWeight={600}
-                  >
-                    {trend}
-                  </Typography>
-                </Box>
-                <Typography variant="caption" color="text.secondary">
-                  vs last month
+              <Box>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  color="text.primary"
+                >
+                  {title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  dari {total} mesin
                 </Typography>
               </Box>
             </Box>
-            <Box sx={{ mt: 2 }}>
-              <Box
-                sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
-              >
-                <Typography variant="caption" color="text.secondary">
-                  Progress
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {percentage.toFixed(1)}%
-                </Typography>
-              </Box>
-              <LinearProgress
-                variant="determinate"
-                value={percentage}
+
+            {/* Value */}
+            <Box sx={{ textAlign: "center", mt: 2 }}>
+              <Typography
+                variant="h2"
+                fontWeight="bold"
+                color={`${color}.main`}
                 sx={{
-                  height: 6,
-                  borderRadius: 3,
-                  backgroundColor: "rgba(0,0,0,0.1)",
-                  "& .MuiLinearProgress-bar": {
-                    backgroundColor: `${color}.main`,
-                    borderRadius: 3,
-                  },
+                  fontSize: { xs: '2.5rem', md: '3.5rem' },
+                  lineHeight: 1,
                 }}
-              />
+              >
+                {value}
+              </Typography>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                fontWeight={500}
+              >
+                mesin
+              </Typography>
             </Box>
           </CardContent>
         </Card>
@@ -243,40 +289,25 @@ export const DashboardView = () => {
 
   const statsData = [
     {
-      title: "Total Users",
-      value: stats.totalUsers,
-      total: stats.totalUsers,
-      icon: People,
-      color: "primary",
-      trend: "+12%",
-      trendUp: true,
-    },
-    {
-      title: "Registered",
-      value: stats.registeredUsers,
-      total: stats.totalUsers,
+      title: "Active Machines",
+      value: stats.activeMachines,
+      total: stats.totalMachines,
       icon: CheckCircle,
       color: "success",
-      trend: "+8%",
-      trendUp: true,
     },
     {
-      title: "Pending",
-      value: stats.pendingUsers,
-      total: stats.totalUsers,
-      icon: Warning,
-      color: "warning",
-      trend: "-3%",
-      trendUp: false,
-    },
-    {
-      title: "Fingerprint Machines",
-      value: stats.totalMachines,
+      title: "Non Active Machines",
+      value: stats.nonActiveMachines,
       total: stats.totalMachines,
-      icon: Fingerprint,
-      color: "info",
-      trend: "+5%",
-      trendUp: true,
+      icon: Block,
+      color: "warning",
+    },
+    {
+      title: "Expired Machines",
+      value: stats.expiredMachines,
+      total: stats.totalMachines,
+      icon: Error,
+      color: "error",
     },
   ];
 
@@ -328,108 +359,125 @@ export const DashboardView = () => {
           gridTemplateColumns: {
             xs: "1fr",
             sm: "repeat(2, 1fr)",
-            md: "repeat(4, 1fr)",
+            md: "repeat(3, 1fr)",
           },
           gap: 3,
           mb: 4,
         }}
       >
         {statsData.map((stat, index) => (
-          <StatCard key={stat.title} stat={stat} index={index} />
+          <StatCard
+            key={stat.title}
+            title={stat.title}
+            value={stat.value}
+            total={stat.total}
+            icon={stat.icon}
+            color={stat.color}
+            index={index}
+          />
         ))}
       </Box>
 
-      {/* Machine Status & Recent Activity */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
-          gap: 3,
-        }}
-      >
-        {/* Machine Status */}
-        <Grow in timeout={800}>
-          <Paper
-            sx={{
-              borderRadius: 3,
-              overflow: "hidden",
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-            }}
-          >
-            <Box sx={{ p: 3, borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
-              <Typography variant="h6" fontWeight="bold">
-                Status Mesin Fingerprint
-              </Typography>
-            </Box>
-            <Box sx={{ p: 3 }}>
+      {/* Detailed Expired Section */}
+      <Grow in timeout={600}>
+        <Paper
+          sx={{
+            borderRadius: 3,
+            overflow: "hidden",
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+            mb: 4,
+          }}
+        >
+          <Box sx={{ p: 3, borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
+            <Typography variant="h6" fontWeight="bold" color="error.main">
+              Detail Mesin Fingerprint Expired
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Daftar lengkap mesin fingerprint yang telah expired beserta detailnya
+            </Typography>
+          </Box>
+          <Box sx={{ p: 2 }}>
+            {expiredDetails.map((item) => (
               <Box
+                key={item.id}
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
                   alignItems: "center",
-                  mb: 2,
+                  p: 2,
+                  mb: 1,
+                  borderRadius: 2,
+                  backgroundColor: "rgba(0,0,0,0.02)",
+                  border: `1px solid ${getExpiredStatusColor(item.status)}.main`,
+                  borderOpacity: 0.2,
+                  "&:hover": {
+                    backgroundColor: `${getExpiredStatusColor(item.status)}.light`,
+                    backgroundColorOpacity: 0.04,
+                    transform: "translateY(-1px)",
+                  },
+                  transition: "all 0.2s ease",
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <CheckCircle color="success" sx={{ mr: 1 }} />
-                  <Typography variant="body2">Active Machines</Typography>
+                <Avatar
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    mr: 2,
+                    backgroundColor: `${getExpiredStatusColor(item.status)}.main`,
+                  }}
+                >
+                  {getExpiredStatusIcon(item.status)}
+                </Avatar>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body1" fontWeight={600}>
+                    {item.machineName}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.location}
+                  </Typography>
                 </Box>
-                <Typography variant="h6" fontWeight="bold" color="success.main">
-                  {stats.activeMachines}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mb: 2,
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Cancel color="error" sx={{ mr: 1 }} />
-                  <Typography variant="body2">Offline Machines</Typography>
+                <Box sx={{ textAlign: "right", mr: 2 }}>
+                  <Typography variant="body2" fontWeight={500}>
+                    {item.expiredDate}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Expired Date
+                  </Typography>
                 </Box>
-                <Typography variant="h6" fontWeight="bold" color="error.main">
-                  {stats.offlineMachines}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Fingerprint color="primary" sx={{ mr: 1 }} />
-                  <Typography variant="body2">Total Machines</Typography>
+                <Box sx={{ textAlign: "right" }}>
+                  <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    color={`${getExpiredStatusColor(item.status)}.main`}
+                  >
+                    {item.daysExpired} days
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Expired
+                  </Typography>
                 </Box>
-                <Typography variant="h6" fontWeight="bold" color="primary.main">
-                  {stats.totalMachines}
-                </Typography>
               </Box>
-            </Box>
-          </Paper>
-        </Grow>
+            ))}
+          </Box>
+        </Paper>
+      </Grow>
 
-        {/* Recent Activity */}
-        <Grow in timeout={1000}>
-          <Paper
-            sx={{
-              borderRadius: 3,
-              overflow: "hidden",
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-            }}
-          >
+      {/* Recent Activity */}
+      <Grow in timeout={1000}>
+        <Paper
+          sx={{
+            borderRadius: 3,
+            overflow: "hidden",
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,255,0.9) 100%)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+          }}
+        >
             <Box sx={{ p: 3, borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
               <Typography variant="h6" fontWeight="bold">
                 Aktivitas Terbaru
@@ -483,7 +531,6 @@ export const DashboardView = () => {
             </Box>
           </Paper>
         </Grow>
-      </Box>
     </Box>
   );
 };
