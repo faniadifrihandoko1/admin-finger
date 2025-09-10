@@ -37,13 +37,7 @@ interface ExpiredDetail {
   status: "critical" | "warning" | "info";
 }
 
-interface RecentActivity {
-  id: string;
-  user: string;
-  action: string;
-  time: string;
-  status: "success" | "warning" | "error";
-}
+
 
 export const DashboardView = () => {
   const [stats, _] = useState<DashboardStats>({
