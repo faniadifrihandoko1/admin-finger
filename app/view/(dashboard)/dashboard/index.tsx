@@ -2,7 +2,6 @@
 
 import {
   Block,
-  Cancel,
   CheckCircle,
   Error,
   Refresh,
@@ -97,69 +96,10 @@ export const DashboardView = () => {
     },
   ]);
 
-  const [recentActivities] = useState<RecentActivity[]>([
-    {
-      id: "1",
-      user: "John Doe",
-      action: "Fingerprint registered",
-      time: "2 minutes ago",
-      status: "success",
-    },
-    {
-      id: "2",
-      user: "Jane Smith",
-      action: "Failed login attempt",
-      time: "5 minutes ago",
-      status: "warning",
-    },
-    {
-      id: "3",
-      user: "Mike Johnson",
-      action: "Machine offline",
-      time: "10 minutes ago",
-      status: "error",
-    },
-    {
-      id: "4",
-      user: "Sarah Wilson",
-      action: "New user added",
-      time: "15 minutes ago",
-      status: "success",
-    },
-    {
-      id: "5",
-      user: "David Brown",
-      action: "Fingerprint updated",
-      time: "20 minutes ago",
-      status: "success",
-    },
-  ]);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "success":
-        return "success";
-      case "warning":
-        return "warning";
-      case "error":
-        return "error";
-      default:
-        return "default";
-    }
-  };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "success":
-        return <CheckCircle />;
-      case "warning":
-        return <Warning />;
-      case "error":
-        return <Cancel />;
-      default:
-        return null;
-    }
-  };
+
+
 
   const getExpiredStatusColor = (status: string) => {
     switch (status) {
