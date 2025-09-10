@@ -144,12 +144,17 @@ export const DashboardView = () => {
             borderRadius: 3,
             background: "rgba(255, 255, 255, 0.95)",
             backdropFilter: "blur(10px)",
-            border: `1px solid ${color === 'success' ? 'rgba(76, 175, 80, 0.2)' : color === 'warning' ? 'rgba(255, 152, 0, 0.2)' : 'rgba(244, 67, 54, 0.2)'}`,
+            border: `2px solid ${color === 'success' ? 'rgba(76, 175, 80, 0.3)' : color === 'warning' ? 'rgba(255, 152, 0, 0.3)' : 'rgba(244, 67, 54, 0.3)'}`,
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
             transition: "all 0.3s ease",
             "&:hover": {
-              transform: "translateY(-4px)",
-              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12)",
+              transform: "translateY(-6px)",
+              boxShadow: color === 'success' 
+                ? "0 12px 40px rgba(76, 175, 80, 0.15)"
+                : color === 'warning'
+                ? "0 12px 40px rgba(255, 152, 0, 0.15)"
+                : "0 12px 40px rgba(244, 67, 54, 0.15)",
+              border: `2px solid ${color === 'success' ? 'rgba(76, 175, 80, 0.5)' : color === 'warning' ? 'rgba(255, 152, 0, 0.5)' : 'rgba(244, 67, 54, 0.5)'}`,
             },
           }}
         >
@@ -167,14 +172,36 @@ export const DashboardView = () => {
                   width: 50,
                   height: 50,
                   borderRadius: 2,
-                  backgroundColor: `${color}.main`,
+                  background: color === 'success' 
+                    ? 'linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)'
+                    : color === 'warning'
+                    ? 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)'
+                    : 'linear-gradient(135deg, #F44336 0%, #EF5350 100%)',
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   mr: 2,
+                  boxShadow: color === 'success' 
+                    ? '0 4px 12px rgba(76, 175, 80, 0.3)'
+                    : color === 'warning'
+                    ? '0 4px 12px rgba(255, 152, 0, 0.3)'
+                    : '0 4px 12px rgba(244, 67, 54, 0.3)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'scale(1.05)',
+                    boxShadow: color === 'success' 
+                      ? '0 6px 16px rgba(76, 175, 80, 0.4)'
+                      : color === 'warning'
+                      ? '0 6px 16px rgba(255, 152, 0, 0.4)'
+                      : '0 6px 16px rgba(244, 67, 54, 0.4)',
+                  }
                 }}
               >
-                {Icon && <Icon />}
+                {Icon && (
+                  <Box sx={{ color: 'white', fontSize: 24 }}>
+                    <Icon />
+                  </Box>
+                )}
               </Box>
               <Box>
                 <Typography
@@ -359,10 +386,27 @@ export const DashboardView = () => {
                     width: 40,
                     height: 40,
                     mr: 2,
-                    backgroundColor: `${getExpiredStatusColor(item.status)}.main`,
+                    background: item.status === 'critical'
+                      ? 'linear-gradient(135deg, #F44336 0%, #EF5350 100%)'
+                      : item.status === 'warning'
+                      ? 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)'
+                      : 'linear-gradient(135deg, #2196F3 0%, #42A5F5 100%)',
+                    boxShadow: item.status === 'critical'
+                      ? '0 3px 8px rgba(244, 67, 54, 0.3)'
+                      : item.status === 'warning'
+                      ? '0 3px 8px rgba(255, 152, 0, 0.3)'
+                      : '0 3px 8px rgba(33, 150, 243, 0.3)',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    }
                   }}
                 >
-                  {getExpiredStatusIcon(item.status)}
+                  {getExpiredStatusIcon(item.status) && (
+                    <Box sx={{ color: 'white', fontSize: 20 }}>
+                      {getExpiredStatusIcon(item.status)}
+                    </Box>
+                  )}
                 </Avatar>
                 <Box sx={{ flex: 1 }}>
                   <Typography variant="body1" fontWeight={600}>
