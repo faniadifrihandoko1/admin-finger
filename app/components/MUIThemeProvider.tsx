@@ -10,14 +10,14 @@ import "react-toastify/dist/ReactToastify.css";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#2e7d32", // Green primary
-      light: "#4caf50",
-      dark: "#1b5e20",
+      main: "#0170B9", // Blue primary (current brand)
+      light: "#03A9F4",
+      dark: "#01579B",
     },
     secondary: {
-      main: "#66bb6a", // Light green secondary
-      light: "#81c784",
-      dark: "#388e3c",
+      main: "#0288D1", // Complementary light blue
+      light: "#4FC3F7",
+      dark: "#0277BD",
     },
   },
   typography: {

@@ -149,7 +149,7 @@ export const DashboardView = () => {
             transition: "all 0.3s ease",
             "&:hover": {
               transform: "translateY(-6px)",
-              boxShadow: color === 'success' 
+              boxShadow: color === 'success'
                 ? "0 12px 40px rgba(76, 175, 80, 0.15)"
                 : color === 'warning'
                 ? "0 12px 40px rgba(255, 152, 0, 0.15)"
@@ -172,7 +172,7 @@ export const DashboardView = () => {
                   width: 50,
                   height: 50,
                   borderRadius: 2,
-                  background: color === 'success' 
+                  background: color === 'success'
                     ? 'linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)'
                     : color === 'warning'
                     ? 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)'
@@ -181,7 +181,7 @@ export const DashboardView = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   mr: 2,
-                  boxShadow: color === 'success' 
+                  boxShadow: color === 'success'
                     ? '0 4px 12px rgba(76, 175, 80, 0.3)'
                     : color === 'warning'
                     ? '0 4px 12px rgba(255, 152, 0, 0.3)'
@@ -189,7 +189,7 @@ export const DashboardView = () => {
                   transition: 'all 0.3s ease',
                   '&:hover': {
                     transform: 'scale(1.05)',
-                    boxShadow: color === 'success' 
+                    boxShadow: color === 'success'
                       ? '0 6px 16px rgba(76, 175, 80, 0.4)'
                       : color === 'warning'
                       ? '0 6px 16px rgba(255, 152, 0, 0.4)'

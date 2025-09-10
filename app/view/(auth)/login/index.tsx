@@ -301,6 +301,13 @@ export const LoginView = () => {
                         backdropFilter: "blur(10px)",
                         border: "1px solid rgba(1, 112, 185, 0.15)",
                         transition: "all 0.3s ease",
+                        // Neutralize browser autofill background
+                        "& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active": {
+                          WebkitTextFillColor: "inherit",
+                          WebkitBoxShadow: "0 0 0px 1000px transparent inset",
+                          transition: "background-color 9999s ease-out 0s",
+                          caretColor: "inherit",
+                        },
                         "&:hover": {
                           backgroundColor: "rgba(255, 255, 255, 1)",
                           border: "1px solid rgba(1, 112, 185, 0.25)",
@@ -343,6 +350,13 @@ export const LoginView = () => {
                         backdropFilter: "blur(10px)",
                         border: "1px solid rgba(1, 112, 185, 0.15)",
                         transition: "all 0.3s ease",
+                        // Neutralize browser autofill background
+                        "& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active": {
+                          WebkitTextFillColor: "inherit",
+                          WebkitBoxShadow: "0 0 0px 1000px transparent inset",
+                          transition: "background-color 9999s ease-out 0s",
+                          caretColor: "inherit",
+                        },
                         "&:hover": {
                           backgroundColor: "rgba(255, 255, 255, 1)",
                           border: "1px solid rgba(1, 112, 185, 0.25)",
@@ -442,30 +456,16 @@ export const LoginView = () => {
                       backdropFilter: "blur(10px)",
                       border: "1px solid rgba(1, 112, 185, 0.15)",
                       transition: "all 0.3s ease",
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 255, 255, 1)",
-                        border: "1px solid rgba(1, 112, 185, 0.25)",
+                      // Neutralize browser autofill background
+                      "& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active": {
+                        WebkitTextFillColor: "inherit",
+                        WebkitBoxShadow: "0 0 0px 1000px transparent inset",
+                        transition: "background-color 9999s ease-out 0s",
+                        caretColor: "inherit",
                       },
-                      "&.Mui-focused": {
-                        backgroundColor: "rgba(255, 255, 255, 1)",
-                        border: "2px solid #0170B9",
-                        boxShadow: "0 0 0 2px rgba(1, 112, 185, 0.15)",
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          border: "none",
-                        },
-                      },
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        border: "none",
-                      },
+
                     },
-                    "& .MuiInputLabel-root": {
-                      color: "text.secondary",
-                      fontWeight: 500,
-                      "&.Mui-focused": {
-                        color: "#0170B9",
-                        fontWeight: 600,
-                      },
-                    },
+
                   }}
                 />
 
@@ -486,30 +486,18 @@ export const LoginView = () => {
                       backdropFilter: "blur(10px)",
                       border: "1px solid rgba(1, 112, 185, 0.15)",
                       transition: "all 0.3s ease",
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 255, 255, 1)",
-                        border: "1px solid rgba(1, 112, 185, 0.25)",
+                      // Neutralize browser autofill background
+                      "& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active": {
+                        WebkitTextFillColor: "inherit",
+                        WebkitBoxShadow: "0 0 0px 1000px transparent inset",
+                        transition: "background-color 9999s ease-out 0s",
+                        caretColor: "inherit",
                       },
-                      "&.Mui-focused": {
-                        backgroundColor: "rgba(255, 255, 255, 1)",
-                        border: "2px solid #0170B9",
-                        boxShadow: "0 0 0 2px rgba(1, 112, 185, 0.15)",
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          border: "none",
-                        },
-                      },
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        border: "none",
-                      },
+
+
+
                     },
-                    "& .MuiInputLabel-root": {
-                      color: "text.secondary",
-                      fontWeight: 500,
-                      "&.Mui-focused": {
-                        color: "#0170B9",
-                        fontWeight: 600,
-                      },
-                    },
+
                   }}
                   InputProps={{
                     endAdornment: (
