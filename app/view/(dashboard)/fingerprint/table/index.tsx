@@ -1,7 +1,7 @@
 "use client";
 import PaginationSectionTableCustom from "@/app/components/comon/table/PaginationSectionTableCustom";
 import { useGetDataPeriod } from "@/hooks/query/use-finger";
-import { Add, FilterList, Refresh, Search } from "@mui/icons-material";
+import { Add, Refresh, Search } from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { AddDialog } from "../modal/add-dialog";
 import { useTableColumns } from "./table-columns";
 
@@ -67,17 +68,11 @@ export const FingerprintTable = () => {
   async function handleRefresh() {
     try {
       await refetch();
-      setSnackbar({
-        open: true,
-        message: "Data berhasil diperbarui!",
-        severity: "success",
-      });
+      toast.info("Data berhasil diperbarui!");
+
     } catch (_error) {
-      setSnackbar({
-        open: true,
-        message: "Gagal memperbarui data",
-        severity: "error",
-      });
+      toast.error("Gagal memperbarui data");
+
     }
   }
 
@@ -152,7 +147,7 @@ export const FingerprintTable = () => {
                   ),
                 }}
               />
-              <Button
+              {/* <Button
                 variant="outlined"
                 startIcon={<FilterList />}
                 size="medium"
@@ -168,7 +163,7 @@ export const FingerprintTable = () => {
                 }}
               >
                 Filter
-              </Button>
+              </Button> */}
               <Button
                 variant="outlined"
                 startIcon={isFetching ? <CircularProgress size={18} color="inherit" /> : <Refresh />}

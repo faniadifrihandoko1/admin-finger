@@ -1,3 +1,4 @@
+import { queryClient } from "@/app/components/QueryProvider";
 import { useUpdateMesin } from "@/hooks/mutation/use-mutation-finger";
 import { MesinFingerData } from "@/hooks/query/use-finger";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +21,6 @@ import {
   FingerprintMachineFormData,
   fingerprintMachineSchema,
 } from "../../schema/fingerprint-machine";
-import { queryClient } from "@/app/components/QueryProvider";
 
 interface AddDialogProps {
   openDialog: boolean;
@@ -97,7 +97,7 @@ export const EditDialog = ({
           Perbarui informasi mesin
         </Typography>
       </DialogTitle>
-      <DialogContent sx={{ pt: 2 }}>
+      <DialogContent sx={{ mt: 1.5 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
             name="ClientName"

@@ -1,3 +1,4 @@
+import { queryClient } from "@/app/components/QueryProvider";
 import { useCreateMesin } from "@/hooks/mutation/use-mutation-finger";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -19,7 +20,6 @@ import {
   FingerprintMachineFormData,
   fingerprintMachineSchema,
 } from "../../schema/fingerprint-machine";
-import { queryClient } from "@/app/components/QueryProvider";
 
 interface AddDialogProps {
   openDialog: boolean;
@@ -96,7 +96,7 @@ export const AddDialog = ({
           Tambahkan mesin fingerprint baru ke sistem
         </Typography>
       </DialogTitle>
-      <DialogContent sx={{ pt: 2 }}>
+      <DialogContent sx={{ mt: 1.5 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="ClientName"

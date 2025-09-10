@@ -26,7 +26,7 @@ export const TableAction = ({ row }: TableActionProps) => {
   const handleConfirmDelete = async () => {
     try {
       await mutateAsync({ SN: row.SN });
-      toast.success("Berhasil menghapus mesin");
+      toast.info("Berhasil menghapus mesin");
       queryClient.invalidateQueries({ queryKey: ["LIST_DATA_MESIN_FINGER"] });
       setOpenDelete(false);
     } catch (_error) {
