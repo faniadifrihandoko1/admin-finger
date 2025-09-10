@@ -63,7 +63,7 @@ export const useUpdateMesin = () =>
     useMutation<
     ResponseUpdateMesin,
       AxiosError<ResponseUpdateMesin>,
-      PayloadDataMesin
+      PayloadDataMesinDelete
     >({
       mutationFn: async data => {
         const res = await axiosInterceptor.post<ResponseUpdateMesin>(
