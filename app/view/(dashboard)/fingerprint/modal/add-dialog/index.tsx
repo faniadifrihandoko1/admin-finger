@@ -1,4 +1,3 @@
-import { queryClient } from "@/app/components/MUIThemeProvider";
 import { useCreateMesin } from "@/hooks/mutation/use-mutation-finger";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -20,6 +19,7 @@ import {
   FingerprintMachineFormData,
   fingerprintMachineSchema,
 } from "../../schema/fingerprint-machine";
+import { queryClient } from "@/app/components/QueryProvider";
 
 interface AddDialogProps {
   openDialog: boolean;

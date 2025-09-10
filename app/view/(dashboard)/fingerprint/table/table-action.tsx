@@ -1,9 +1,9 @@
+import { queryClient } from "@/app/components/QueryProvider";
 import { ModalConfirmDelete } from "@/app/components/comon/modal/modal-confirm-delete";
 import { useDeleteMesin } from "@/hooks/mutation/use-mutation-finger";
 import { MesinFingerData } from "@/hooks/query/use-finger";
 import { Delete, Edit } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { EditDialog } from "../modal/edit-dialog";
@@ -18,7 +18,7 @@ export const TableAction = ({ row }: TableActionProps) => {
   const [openDelete, setOpenDelete] = useState(false);
 
   const {mutateAsync,isPending} = useDeleteMesin()
-  const queryClient = useQueryClient();
+
 
   const handleEdit = () => setOpenEdit(!openEdit);
   const handleDelete = () => setOpenDelete(!openDelete);
